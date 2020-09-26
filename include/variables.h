@@ -11,14 +11,20 @@ extern PlayerData gPlayerData;
 extern ActionState gPlayerActionState;
 extern PlayerAnim gPlayerAnimation;
 extern PlayerStatus gPlayerStatus;
+extern PlayerStatus* gPlayerStatusPtr;
 extern GameStatus* gGameStatusPtr[1];
+extern s32 gRandSeed;
 extern StaticItem gItemTable[364];
 extern s16 gMainGameState; /* 0 = battle, 1 = pause, 2 = world */
 extern UNK_FUN_PTR(gCurrentUpdateFunction);
 
+extern BattleStatus gBattleStatus;
+
 extern ScriptInstance* gWorldScriptList[128];
 extern ScriptInstance* gBattleScriptList[128];
 extern ScriptInstance** gCurrentScriptListPtr[128];
+
+extern s32 gScriptListCount;
 
 extern s32 gScriptIdList[128];
 extern s32 gScriptIndexList[128];
@@ -44,16 +50,20 @@ extern Shadow* gBattleShadowList[60];
 extern Shadow** gCurrentShadowListPtr[60];
 
 extern Camera gCameras[4];
+extern s32 gCurrentCameraID;
 
 extern f32 gGlobalTimeSpace;
 
 extern Npc* gPlayerNpcPtr;
 
 extern s8 D_800A0900;
+extern EncounterStatus gCurrentEncounter;
 extern s16* D_80151328;
 extern s16 D_8010CD10;
 extern s16 D_8010CD12;
 extern s32 D_801595A0;
+extern s16 D_80159AE2;
+extern s16 D_80159AE4;
 extern BackgroundHeader gBackgroundImage;
 extern s8 D_8014F12F;
 
@@ -72,6 +82,7 @@ extern s16 D_800A0944;
 
 extern s16 D_80151308;
 
+extern s32 gGameState;
 extern s32 D_8009A650[1];
 
 extern s16 gCurrentDoorSoundsSet;
@@ -81,5 +92,12 @@ extern UNK_TYPE D_80147474;
 extern UNK_TYPE D_80147574;
 extern UNK_TYPE D_80109270;
 extern UNK_TYPE D_80108558;
+extern UNK_TYPE D_8010F250; // play_sound state struct?
+extern s8 D_8010EBB0;
+
+extern SaveData gCurrentSaveFile;
+
+extern u32* gMapFlags;
+extern u32* gMapVars;
 
 #endif

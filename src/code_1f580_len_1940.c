@@ -2,6 +2,10 @@
 
 INCLUDE_API_ASM("code_1f580_len_1940", SetEncounterStatusFlags);
 
+INCLUDE_ASM("code_1f580_len_1940", func_800441F0);
+
+INCLUDE_ASM("code_1f580_len_1940", func_80044238);
+
 ApiStatus LoadDemoBattle(ScriptInstance* script, s32 isInitialCall) {
     load_demo_battle(get_variable(script, *script->ptrReadPos));
     return ApiStatus_DONE2;
@@ -19,6 +23,10 @@ INCLUDE_API_ASM("code_1f580_len_1940", RemoveNpc);
 INCLUDE_API_ASM("code_1f580_len_1940", RemoveEncounter);
 
 INCLUDE_API_ASM("code_1f580_len_1940", GetBattleOutcome);
+
+INCLUDE_ASM("code_1f580_len_1940", func_800445A8);
+
+INCLUDE_ASM("code_1f580_len_1940", func_800445D4);
 
 ApiStatus GetOwnerEncountered(ScriptInstance* script, s32 isInitialCall) {
     set_variable(script, *script->ptrReadPos, script->ownerActorID->encountered);
@@ -41,7 +49,15 @@ ApiStatus StartBattleWith(ScriptInstance* script, s32 isInitialCall) {
 
 INCLUDE_API_ASM("code_1f580_len_1940", StartBossBattle);
 
-INCLUDE_API_ASM("code_1f580_len_1940", SetBattleMusic);
+ApiStatus SetBattleMusic(ScriptInstance* script, s32 isInitialCall) {
+    Bytecode songID = get_variable(script, *script->ptrReadPos);
+    EncounterStatus* currentEncounter = &gCurrentEncounter;
+
+    currentEncounter->allowFleeing = 1;
+    currentEncounter->songID = songID;
+    currentEncounter->unk_18 = -1;
+    return ApiStatus_DONE2;
+}
 
 INCLUDE_API_ASM("code_1f580_len_1940", BindNpcAI);
 
@@ -82,6 +98,8 @@ ApiStatus SetSelfEnemyFlags(ScriptInstance* script, s32 isInitialCall) {
 
 INCLUDE_API_ASM("code_1f580_len_1940", SetSelfEnemyFlagBits);
 
+INCLUDE_ASM("code_1f580_len_1940", func_80045580);
+
 ApiStatus GetSelfNpcID(ScriptInstance* script, s32 isInitialCall) {
     set_variable(script, *script->ptrReadPos, script->ownerActorID->npcID);
     return ApiStatus_DONE2;
@@ -91,4 +109,22 @@ INCLUDE_API_ASM("code_1f580_len_1940", ClearDefeatedEnemies);
 
 INCLUDE_API_ASM("code_1f580_len_1940", SetEnemyFlagBits);
 
+INCLUDE_ASM("code_1f580_len_1940", func_8004572C);
+
 INCLUDE_API_ASM("code_1f580_len_1940", GetSelfAnimationFromTable);
+
+INCLUDE_ASM("code_1f580_len_1940", func_80045798);
+
+INCLUDE_ASM("code_1f580_len_1940", func_800457C4);
+
+INCLUDE_ASM("code_1f580_len_1940", func_800457F8);
+
+INCLUDE_ASM("code_1f580_len_1940", func_8004580C);
+
+INCLUDE_ASM("code_1f580_len_1940", func_80045838);
+
+INCLUDE_ASM("code_1f580_len_1940", func_800458CC);
+
+INCLUDE_ASM("code_1f580_len_1940", func_80045900);
+
+INCLUDE_ASM("code_1f580_len_1940", func_80045A58);

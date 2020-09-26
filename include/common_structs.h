@@ -105,7 +105,7 @@ typedef struct PlayerData {
     /* 0x00F */ u8 starPieces;
     /* 0x010 */ s8 starPoints;
     /* 0x011 */ char unk_11;
-    /* 0x012 */ u8 currentPartner;
+    /* 0x012 */ s8 currentPartner;
     /* 0x013 */ char unk_13;
     /* 0x014 */ struct PartnerData partners[12];
     /* 0x074 */ s16 keyItems[32];
@@ -156,9 +156,8 @@ typedef struct PlayerData {
 typedef struct Trigger {
     /* 0x00 */ s16 genericFlagIndex;
     /* 0x02 */ char unk_02[2];
-    /* 0x04 */ s16 crateFlagIndex;
-    /* 0x06 */ s16 panelFlagIndex;
-    /* 0x08 */ s32 colliderID;
+    /* 0x04 */ s32 params1;
+    /* 0x08 */ s32 params2;
     /* 0x0C */ UNK_FUN_PTR(functionHandler);
     /* 0x10 */ Bytecode* scriptStart;
     /* 0x14 */ struct ScriptInstance* runningScript;
@@ -247,7 +246,7 @@ typedef struct ScriptInstance {
     /* 0x0C4 */ s32 varFlags[3];
     /* 0x0D0 */ s32 loopStartTable[8];
     /* 0x0F0 */ s32 loopCounterTable[8];
-    /* 0x110 */ u8 switchBlockState[8];
+    /* 0x110 */ s8 switchBlockState[8];
     /* 0x118 */ s32 switchBlockValue[8];
     /* 0x138 */ s32* buffer;
     /* 0x13C */ s32* array;
@@ -265,7 +264,9 @@ typedef struct ScriptInstance {
 
 typedef struct Entity {
     /* 0x00 */ s32 flags;
-    /* 0x04 */ char unk_04[7];
+    /* 0x04 */ char unk_04[2];
+    /* 0x06 */ s8 unk_06;
+    /* 0x07 */ char unk_08[4];
     /* 0x0B */ u8 alpha; /* reported by rain */
     /* 0x0C */ s16 aabb[3];
     /* 0x12 */ char unk_12[4];
@@ -836,7 +837,15 @@ typedef struct GameStatus {
     /* 0x042 */ char unk_42[2];
     /* 0x044 */ u8 stickY; /* with deadzone */
     /* 0x045 */ u8 altStickY; /* input used for batte when flag 80000 set */
-    /* 0x046 */ char unk_46[34];
+    /* 0x046 */ char unk_46[2];
+    /* 0x048 */ s16 unk_48;
+    /* 0x04A */ char unk_4A[6];
+    /* 0x050 */ s16 unk_50;
+    /* 0x052 */ char unk_52[6];
+    /* 0x058 */ s16 unk_58;
+    /* 0x05A */ char unk_5A[6];
+    /* 0x060 */ s16 unk_60;
+    /* 0x062 */ char unk_62[6];
     /* 0x068 */ s16 demoButtonInput;
     /* 0x06A */ s8 demoStickX;
     /* 0x06B */ s8 demoStickY;
@@ -871,7 +880,7 @@ typedef struct GameStatus {
     /* 0x0BA */ s16 bootGreen;
     /* 0x0BC */ s16 bootRed;
     /* 0x0BE */ char unk_BE[106];
-    /* 0x128 */ f32 playerTraceNormal[3];
+    /* 0x128 */ Vec3f playerTraceNormal;
     /* 0x134 */ u16 frameCounter;
     /* 0x136 */ char unk_136[2];
     /* 0x138 */ s32 nextRNG;
@@ -889,7 +898,7 @@ typedef struct GameStatus {
     /* 0x15C */ s16 unk_15C;
     /* 0x15E */ char unk_15E[0x2];
     /* 0x160 */ s16 savedPos[3];
-    /* 0x166 */ s8 saveSlot;
+    /* 0x166 */ u8 saveSlot;
     /* 0x167 */ u8 loadType; /* (0 = from map, 1 = from main menu) */
     /* 0x168 */ s32 saveCount;
     /* 0x16C */ char unk_16C[12];
@@ -1031,16 +1040,19 @@ typedef struct FontRasterSet {
     /* 0x02 */ char unk_02[10];
 } FontRasterSet; // size = 0x0C
 
-typedef struct TriggerBp {
+typedef s32(*TriggerHandlerFunc)(struct Trigger*);
+
+typedef struct TriggerDefinition {
     /* 0x00 */ s32 flags;
     /* 0x04 */ s16 colliderIndex;
     /* 0x06 */ char unk_06[2];
     /* 0x08 */ s32 flagIndex;
-    /* 0x0C */ UNK_FUN_PTR(function);
-    /* 0x10 */ char unk_10[8];
+    /* 0x0C */ TriggerHandlerFunc function;
+    /* 0x10 */ char unk_10[4];
+    /* 0x14 */ s32 unk_14;
     /* 0x18 */ s32 inputArg3;
     /* 0x1C */ char unk_1C[4];
-} TriggerBp; // size = 0x20
+} TriggerDefinition; // size = 0x20
 
 typedef struct CollisionStatus {
     /* 0x00 */ s16 pushingAgainstWall; /* FFFF = none for all below VVV */
@@ -1339,7 +1351,7 @@ typedef struct PlayerStatus {
     /* 0x044 */ f32 decorationPos[2];
     /* 0x04C */ char unk_4C[4];
     /* 0x050 */ f32 jumpApexHeight;
-    /* 0x054 */ s32 currentSpeed;
+    /* 0x054 */ f32 currentSpeed;
     /* 0x058 */ f32 walkSpeed;
     /* 0x05C */ f32 runSpeed;
     /* 0x060 */ char unk_60[8];
@@ -1366,7 +1378,8 @@ typedef struct PlayerStatus {
     /* 0x0C0 */ u32* decorationList;
     /* 0x0C4 */ char unk_C4[8];
     /* 0x0CC */ s32 shadowID;
-    /* 0x0D0 */ char unk_D0[12];
+    /* 0x0D0 */ char unk_D0[8];
+    /* 0x0D8 */ UNK_PTR** unk_D8;
     /* 0x0DC */ s32 currentButtons;
     /* 0x0E0 */ s32 pressedButtons;
     /* 0x0E4 */ s32 heldButtons;
@@ -1389,7 +1402,7 @@ typedef struct AnimatedModelNode {
 typedef struct EncounterStatus {
     /* 0x00 */ s32 flags;
     /* 0x04 */ u8 eFirstStrike; /* 0 = none, 1 = player, 2 = enemy */
-    /* 0x05 */ u8 hitType; /* 1 = none/enemy, 2 = jump */
+    /* 0x05 */ s8 hitType; /* 1 = none/enemy, 2 = jump */
     /* 0x06 */ u8 hitTier; /* 0 = normal, 1 = super, 2 = ultra */
     /* 0x07 */ char unk_07[2];
     /* 0x09 */ u8 battleOutcome; /* 0 = won, 1 = lost */
@@ -1403,17 +1416,47 @@ typedef struct EncounterStatus {
     /* 0x12 */ char unk_12;
     /* 0x13 */ u8 dropWhackaBump;
     /* 0x14 */ s32 songID;
-    /* 0x18 */ char unk_18[4];
+    /* 0x18 */ s32 unk_18;
     /* 0x1C */ u8 numEncounters; /* number of encounters for current map (in list) */
     /* 0x1D */ char unk_1D[3];
     /* 0x20 */ u8 mapID;
     /* 0x21 */ char unk_21[3];
     /* 0x24 */ s32* npcGroupList;
     /* 0x28 */ struct Encounter* enounterList[24];
-    /* 0x2C */ char unk_2C[92];
     /* 0x88 */ struct Encounter* currentEncounter;
     /* 0x8C */ struct Enemy* currentEnemy;
-    /* 0x90 */ char unk_90[4];
-} EncounterStatus; // size = 0x94
+    /* 0x90 */ s32 unk_90;
+    /* 0x94 */ char unk_94[4];
+    /* 0x98 */ s32 unk_98;
+} EncounterStatus; // size = 0x9C
+
+typedef struct SaveData {
+    /* 0x0000 */ char magicString[16]; /* "Mario Story 006" string */
+    /* 0x0010 */ s8 pad[32]; /* always zero */
+    /* 0x0030 */ s32 crc1;
+    /* 0x0034 */ s32 crc2;
+    /* 0x0038 */ s32 saveSlot;
+    /* 0x003C */ s32 saveCount;
+    /* 0x0040 */ struct PlayerData player;
+    /* 0x0380 */ char unk_380[0xE0];
+    /* 0x0460 */ s32 starPoints;
+    /* 0x0464 */ char unk_464[4];
+    /* 0x0468 */ s16 areaID;
+    /* 0x046A */ s16 mapID;
+    /* 0x046C */ s16 entryID;
+    /* 0x046E */ char unk_46E[2];
+    /* 0x0470 */ s32 enemyDefeatFlags[720];
+    /* 0x0FB0 */ s32 globalFlags[64];
+    /* 0x10B0 */ s8 globalBytes[512];
+    /* 0x12B0 */ s32 areaFlags[8];
+    /* 0x12D0 */ s8 areaBytes[16];
+    /* 0x12E0 */ char unk_12E0[6];
+    /* 0x12E6 */ s16 savePos[3];
+    /* 0x12EC */ s32 unk_12EC;
+    /* 0x12F0 */ s8 unk_12F0[12]; /* player name starts at 4th char */
+    /* 0x12FC */ s32 unk_12FC;
+    /* 0x1300 */ s32 unk_1300;
+    /* 0x1304 */ char unk_1304[0x7C];
+} SaveData; // size = 0x1380
 
 #endif
