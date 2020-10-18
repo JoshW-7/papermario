@@ -1,4 +1,4 @@
-#include "common.h"
+#include "code_a5dd0_len_114e0.h"
 
 INCLUDE_ASM(s32, "code_a5dd0_len_114e0", update_entities);
 
@@ -135,7 +135,7 @@ INCLUDE_ASM(s32, "code_a5dd0_len_114e0", AssignCrateFlag, ScriptInstance* script
 
 INCLUDE_ASM(s32, "code_a5dd0_len_114e0", create_entity_shadow);
 
-INCLUDE_ASM(s32, "code_a5dd0_len_114e0", create_shadow_type);
+INCLUDE_ASM(Shadow*, "code_a5dd0_len_114e0", create_shadow_type, s32 type, f32 x, f32 y, f32 z);
 
 INCLUDE_ASM(s32, "code_a5dd0_len_114e0", func_80112328);
 
@@ -151,7 +151,8 @@ INCLUDE_ASM(s32, "code_a5dd0_len_114e0", set_peach_shadow_scale);
 
 INCLUDE_ASM(s32, "code_a5dd0_len_114e0", func_80112B20);
 
-INCLUDE_ASM(s32, "code_a5dd0_len_114e0", NOP_state);
+void NOP_state(void) {
+}
 
 INCLUDE_ASM(s32, "code_a5dd0_len_114e0", func_80112B98);
 

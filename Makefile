@@ -7,10 +7,11 @@ SHELL=/bin/bash -o pipefail
 # BUILD_DIR is location where all build artifacts are placed
 BUILD_DIR = build
 
-SRC_DIRS := src src/os
+SRC_DIRS := src src/os src/os/nusys
 ASM_DIRS := asm asm/os
-INCLUDE_DIRS := include include/PR
+INCLUDE_DIRS := include include/PR src
 DATA_DIRS := bin
+YAY0_DIRS := bin/Yay0
 
 # Source code files
 C_FILES := $(foreach dir,$(SRC_DIRS),$(wildcard $(dir)/*.c))
@@ -19,12 +20,14 @@ ifdef PM_HEADER_REBUILD
 	H_FILES := $(foreach dir,$(INCLUDE_DIRS),$(wildcard $(dir)/*.h))
 endif
 DATA_FILES := $(foreach dir,$(DATA_DIRS),$(wildcard $(dir)/*.bin))
+YAY0_FILES := $(foreach dir,$(YAY0_DIRS),$(wildcard $(dir)/*.bin))
 
 # Object files
 O_FILES := $(foreach file,$(C_FILES),$(BUILD_DIR)/$(file:.c=.o)) \
            $(foreach file,$(S_FILES),$(BUILD_DIR)/$(file:.s=.o)) \
            $(foreach file,$(DATA_FILES),$(BUILD_DIR)/$(file:.bin=.o)) \
 
+YAY0_FILES := $(foreach file,$(YAY0_FILES),$(BUILD_DIR)/$(file:.bin=.bin.Yay0))
 
 ####################### Other Tools #########################
 
@@ -49,7 +52,7 @@ CPPFLAGS   = -Iinclude -D _LANGUAGE_C -ffreestanding -DF3DEX_GBI_2
 ASFLAGS    = -EB -Iinclude -march=vr4300 -mtune=vr4300
 OLDASFLAGS = -EB -Iinclude -G 0
 CFLAGS     = -O2 -quiet -G 0 -mcpu=vr4300 -mfix4300 -mips3 -mgp32 -mfp32
-LDFLAGS    = -T undefined_syms.txt -T $(LD_SCRIPT) -Map $(BUILD_DIR)/papermario.map --no-check-sections
+LDFLAGS    = -T undefined_syms.txt -T undefined_funcs.txt -T $(LD_SCRIPT) -Map $(BUILD_DIR)/papermario.map --no-check-sections
 
 ######################## Targets #############################
 
@@ -59,7 +62,7 @@ default: all
 
 LD_SCRIPT = $(TARGET).ld
 
-all: $(BUILD_DIR) $(TARGET).z64 verify
+all: $(TARGET).ld $(BUILD_DIR) $(TARGET).z64 verify
 
 clean:
 	rm -rf $(BUILD_DIR) $(TARGET).z64
@@ -68,16 +71,23 @@ submodules:
 	git submodule update --init --recursive
 
 split:
-	rm -rf $(DATA_DIRS) && ./tools/n64splat/split.py baserom.z64 tools/splat.yaml . --modes ld bin
+	rm -rf $(DATA_DIRS) && ./tools/n64splat/split.py baserom.z64 tools/splat.yaml . --modes ld bin Yay0
+
+split-all:
+	rm -rf $(DATA_DIRS) && ./tools/n64splat/split.py baserom.z64 tools/splat.yaml . --modes all
+
+$(TARGET).ld: tools/splat.yaml
+	./tools/n64splat/split.py baserom.z64 tools/splat.yaml . --modes ld
 
 setup: clean submodules split
+	make -C tools
 
 print-% : ; $(info $* is a $(flavor $*) variable set to [$($*)]) @true
 
 $(BUILD_DIR):
 	mkdir -p $(BUILD_DIR)
 
-$(BUILD_DIR)/$(TARGET).elf: $(O_FILES) $(LD_SCRIPT)
+$(BUILD_DIR)/$(TARGET).elf: $(O_FILES) $(YAY0_FILES) $(LD_SCRIPT)
 	@$(LD) $(LDFLAGS) -o $@ $(O_FILES)
 
 $(BUILD_DIR)/%.o: %.s
@@ -88,6 +98,11 @@ $(BUILD_DIR)/%.o: %.c $(H_FILES)
 
 $(BUILD_DIR)/%.o: %.bin
 	$(LD) -r -b binary -o $@ $<
+
+$(BUILD_DIR)/%.bin.Yay0: %.bin
+	mkdir -p build/bin/Yay0
+	tools/Yay0compress $< $<.Yay0
+	$(LD) -r -b binary -o $@ $<.Yay0
 
 $(BUILD_DIR)/$(TARGET).bin: $(BUILD_DIR)/$(TARGET).elf
 	$(OBJCOPY) $< $@ -O binary
@@ -100,4 +115,4 @@ $(TARGET).z64: $(BUILD_DIR)/$(TARGET).bin
 verify: $(TARGET).z64
 	sha1sum -c checksum.sha1
 
-.PHONY: all clean default diff test
+.PHONY: all clean default

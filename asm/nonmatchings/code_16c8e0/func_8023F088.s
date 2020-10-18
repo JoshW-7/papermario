@@ -25,7 +25,7 @@ glabel func_8023F088
 /* 16D9B8 8023F0D8 000218C0 */  sll       $v1, $v0, 3
 /* 16D9BC 8023F0DC 00431021 */  addu      $v0, $v0, $v1
 /* 16D9C0 8023F0E0 000210C0 */  sll       $v0, $v0, 3
-/* 16D9C4 8023F0E4 0C099EF7 */  jal       hide_foreground_models_unchecked
+/* 16D9C4 8023F0E4 0C099EF7 */  jal       hide_foreground_models_unsafe
 /* 16D9C8 8023F0E8 0044B821 */   addu     $s7, $v0, $a0
 /* 16D9CC 8023F0EC 0C046EE9 */  jal       is_world_fog_enabled
 /* 16D9D0 8023F0F0 00000000 */   nop      
@@ -808,8 +808,8 @@ glabel func_8023F088
 /* 16E5B8 8023FCD8 AE180090 */  sw        $t8, 0x90($s0)
 /* 16E5BC 8023FCDC AE030094 */  sw        $v1, 0x94($s0)
 /* 16E5C0 8023FCE0 AFC20000 */  sw        $v0, ($fp)
-/* 16E5C4 8023FCE4 3C04800A */  lui       $a0, 0x800a
-/* 16E5C8 8023FCE8 8C84A5DC */  lw        $a0, -0x5a24($a0)
+/* 16E5C4 8023FCE4 3C04800A */  lui       $a0, %hi(nuGfxZBuffer)
+/* 16E5C8 8023FCE8 8C84A5DC */  lw        $a0, %lo(nuGfxZBuffer)($a0)
 /* 16E5CC 8023FCEC 260200A8 */  addiu     $v0, $s0, 0xa8
 /* 16E5D0 8023FCF0 AE190098 */  sw        $t9, 0x98($s0)
 /* 16E5D4 8023FCF4 AE03009C */  sw        $v1, 0x9c($s0)

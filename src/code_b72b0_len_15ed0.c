@@ -58,7 +58,8 @@ INCLUDE_ASM(s32, "code_b72b0_len_15ed0", get_entity_fog_distance);
 
 INCLUDE_ASM(s32, "code_b72b0_len_15ed0", get_entity_fog_color);
 
-INCLUDE_ASM(s32, "code_b72b0_len_15ed0", stub_dynamic_entity_delegate);
+void stub_dynamic_entity_delegate(void) {
+}
 
 INCLUDE_ASM(s32, "code_b72b0_len_15ed0", clear_dynamic_entity_list);
 
@@ -106,7 +107,7 @@ INCLUDE_ASM(s32, "code_b72b0_len_15ed0", dma_load_string);
 
 INCLUDE_ASM(s32, "code_b72b0_len_15ed0", load_message_to_buffer);
 
-INCLUDE_ASM(s32, "code_b72b0_len_15ed0", load_string);
+INCLUDE_ASM(PrintContext*, "code_b72b0_len_15ed0", load_string, s32 stringId, s32* a1);
 
 INCLUDE_ASM(s32, "code_b72b0_len_15ed0", _load_string);
 
@@ -250,11 +251,14 @@ INCLUDE_ASM(s32, "code_b72b0_len_15ed0", func_8013559C);
 
 INCLUDE_ASM(s32, "code_b72b0_len_15ed0", update_item_entity_static);
 
-INCLUDE_ASM(s32, "code_b72b0_len_15ed0", func_801356C4);
+void func_801356C4(void) {
+}
 
-INCLUDE_ASM(s32, "code_b72b0_len_15ed0", func_801356CC);
+void func_801356CC(void) {
+}
 
-INCLUDE_ASM(s32, "code_b72b0_len_15ed0", func_801356D4);
+void func_801356D4(void) {
+}
 
 INCLUDE_ASM(s32, "code_b72b0_len_15ed0", update_item_entity_temp);
 
