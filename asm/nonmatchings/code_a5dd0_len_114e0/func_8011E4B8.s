@@ -2,8 +2,8 @@
 .set noreorder # don't insert nops after branches
 
 glabel func_8011E4B8
-/* B4BB8 8011E4B8 3C038015 */  lui       $v1, 0x8015
-/* B4BBC 8011E4BC 8C633A40 */  lw        $v1, 0x3a40($v1)
+/* B4BB8 8011E4B8 3C038015 */  lui       $v1, %hi(gCurrentAnimMeshListPtr)
+/* B4BBC 8011E4BC 8C633A40 */  lw        $v1, %lo(gCurrentAnimMeshListPtr)($v1)
 /* B4BC0 8011E4C0 27BDFFE0 */  addiu     $sp, $sp, -0x20
 /* B4BC4 8011E4C4 AFB10014 */  sw        $s1, 0x14($sp)
 /* B4BC8 8011E4C8 0080882D */  daddu     $s1, $a0, $zero
@@ -29,10 +29,10 @@ glabel func_8011E4B8
 /* B4C08 8011E508 0C00AB39 */  jal       heap_malloc
 /* B4C0C 8011E50C 240402E0 */   addiu    $a0, $zero, 0x2e0
 /* B4C10 8011E510 00102080 */  sll       $a0, $s0, 2
-/* B4C14 8011E514 3C038015 */  lui       $v1, 0x8015
-/* B4C18 8011E518 8C633A40 */  lw        $v1, 0x3a40($v1)
-/* B4C1C 8011E51C 3C058015 */  lui       $a1, 0x8015
-/* B4C20 8011E520 24A512D4 */  addiu     $a1, $a1, 0x12d4
+/* B4C14 8011E514 3C038015 */  lui       $v1, %hi(gCurrentAnimMeshListPtr)
+/* B4C18 8011E518 8C633A40 */  lw        $v1, %lo(gCurrentAnimMeshListPtr)($v1)
+/* B4C1C 8011E51C 3C058015 */  lui       $a1, %hi(D_801512D4)
+/* B4C20 8011E520 24A512D4 */  addiu     $a1, $a1, %lo(D_801512D4)
 /* B4C24 8011E524 00832021 */  addu      $a0, $a0, $v1
 /* B4C28 8011E528 8CA30000 */  lw        $v1, ($a1)
 /* B4C2C 8011E52C 0040302D */  daddu     $a2, $v0, $zero
@@ -54,8 +54,8 @@ glabel func_8011E4B8
 /* B4C64 8011E564 E4C00090 */  swc1      $f0, 0x90($a2)
 /* B4C68 8011E568 16200004 */  bnez      $s1, .L8011E57C
 /* B4C6C 8011E56C E4C00094 */   swc1     $f0, 0x94($a2)
-/* B4C70 8011E570 3C028015 */  lui       $v0, 0x8015
-/* B4C74 8011E574 2442C250 */  addiu     $v0, $v0, -0x3db0
+/* B4C70 8011E570 3C028015 */  lui       $v0, %hi(D_8014C250)
+/* B4C74 8011E574 2442C250 */  addiu     $v0, $v0, %lo(D_8014C250)
 /* B4C78 8011E578 ACC20008 */  sw        $v0, 8($a2)
 .L8011E57C:
 /* B4C7C 8011E57C 0000202D */  daddu     $a0, $zero, $zero

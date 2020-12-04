@@ -17,7 +17,7 @@ s32 func_800EA524(void) {
 
 INCLUDE_ASM(s32, "code_838b0_len_5900", func_800EA52C);
 
-INCLUDE_ASM(s32, "code_838b0_len_5900", is_current_partner_flying);
+INCLUDE_ASM(s32, "code_838b0_len_5900", is_current_partner_flying, void);
 
 INCLUDE_ASM(s32, "code_838b0_len_5900", func_800EA5B8);
 
@@ -27,7 +27,7 @@ INCLUDE_ASM(s32, "code_838b0_len_5900", func_800EA6A8);
 
 INCLUDE_ASM(s32, "code_838b0_len_5900", func_800EA6CC);
 
-INCLUDE_ASM(s32, "code_838b0_len_5900", func_800EB168);
+INCLUDE_ASM(s32, "code_838b0_len_5900", func_800EB168, s32 arg0);
 
 INCLUDE_ASM(s32, "code_838b0_len_5900", func_800EB200);
 
@@ -57,19 +57,19 @@ INCLUDE_ASM(s32, "code_838b0_len_5900", partner_suspend_ability_script);
 
 INCLUDE_ASM(s32, "code_838b0_len_5900", partner_resume_ability_script);
 
-INCLUDE_ASM(s32, "code_838b0_len_5900", enable_partner_walking);
+INCLUDE_ASM(void, "code_838b0_len_5900", enable_partner_walking, Npc* partner, s32 val);
 
-INCLUDE_ASM(s32, "code_838b0_len_5900", func_800EBA3C);
+INCLUDE_ASM(void, "code_838b0_len_5900", func_800EBA3C, Npc* partner);
 
-INCLUDE_ASM(s32, "code_838b0_len_5900", func_800EBB40);
+INCLUDE_ASM(void, "code_838b0_len_5900", func_800EBB40, Npc* partner);
 
 INCLUDE_ASM(s32, "code_838b0_len_5900", func_800EBC74);
 
-INCLUDE_ASM(s32, "code_838b0_len_5900", enable_partner_flying);
+INCLUDE_ASM(void, "code_838b0_len_5900", enable_partner_flying, Npc* partner, s32 val);
 
-INCLUDE_ASM(s32, "code_838b0_len_5900", update_player_move_history);
+INCLUDE_ASM(void, "code_838b0_len_5900", update_player_move_history, Npc* partner);
 
-INCLUDE_ASM(s32, "code_838b0_len_5900", func_800ED5D0);
+INCLUDE_ASM(void, "code_838b0_len_5900", func_800ED5D0, Npc* partner);
 
 INCLUDE_ASM(s32, "code_838b0_len_5900", func_800ED9F8);
 
@@ -85,7 +85,7 @@ INCLUDE_ASM(s32, "code_838b0_len_5900", func_800EF300);
 
 INCLUDE_ASM(s32, "code_838b0_len_5900", func_800EF314);
 
-INCLUDE_ASM(s32, "code_838b0_len_5900", enable_partner_ai);
+INCLUDE_ASM(void, "code_838b0_len_5900", enable_partner_ai, void);
 
 INCLUDE_ASM(s32, "code_838b0_len_5900", func_800EF394, f32 arg0);
 
@@ -101,7 +101,7 @@ INCLUDE_ASM(s32, "code_838b0_len_5900", func_800EF414);
 
 INCLUDE_ASM(s32, "code_838b0_len_5900", func_800EF43C);
 
-INCLUDE_ASM(s32, "code_838b0_len_5900", clear_partner_move_history);
+INCLUDE_ASM(void, "code_838b0_len_5900", clear_partner_move_history, Npc* partner);
 
 INCLUDE_ASM(s32, "code_838b0_len_5900", func_800EF4E0);
 

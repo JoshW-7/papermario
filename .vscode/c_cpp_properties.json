@@ -3,12 +3,21 @@
     "configurations": [
         {
             "name": "papermario",
+            "browse": {
+                "limitSymbolsToIncludedHeaders": true,
+                "path": [
+                    "${workspaceFolder}/include",
+                    "${workspaceFolder}/src"
+                ]
+            },
             "includePath": [
-                "${workspaceFolder}/include"
+                "${workspaceFolder}/include",
+                "${workspaceFolder}/src"
             ],
             "defines": [
                 "F3DEX_GBI_2",
-                "_LANGUAGE_C"
+                "_LANGUAGE_C",
+                "SCRIPT(...)={}"
             ],
             "cStandard": "c89",
             "cppStandard": "c++17",

@@ -11,8 +11,8 @@ glabel func_8011E438
 /* B4B50 8011E450 A2000014 */   sb       $zero, 0x14($s0)
 /* B4B54 8011E454 0C0478E6 */  jal       func_8011E398
 /* B4B58 8011E458 00000000 */   nop      
-/* B4B5C 8011E45C 3C038015 */  lui       $v1, 0x8015
-/* B4B60 8011E460 8C633A40 */  lw        $v1, 0x3a40($v1)
+/* B4B5C 8011E45C 3C038015 */  lui       $v1, %hi(gCurrentAnimMeshListPtr)
+/* B4B60 8011E460 8C633A40 */  lw        $v1, %lo(gCurrentAnimMeshListPtr)($v1)
 /* B4B64 8011E464 0000202D */  daddu     $a0, $zero, $zero
 /* B4B68 8011E468 AE000010 */  sw        $zero, 0x10($s0)
 .L8011E46C:
@@ -28,8 +28,8 @@ glabel func_8011E438
 .L8011E48C:
 /* B4B8C 8011E48C 0C00AB4B */  jal       heap_free
 /* B4B90 8011E490 0200202D */   daddu    $a0, $s0, $zero
-/* B4B94 8011E494 3C038015 */  lui       $v1, 0x8015
-/* B4B98 8011E498 246312D4 */  addiu     $v1, $v1, 0x12d4
+/* B4B94 8011E494 3C038015 */  lui       $v1, %hi(D_801512D4)
+/* B4B98 8011E498 246312D4 */  addiu     $v1, $v1, %lo(D_801512D4)
 /* B4B9C 8011E49C 8C620000 */  lw        $v0, ($v1)
 /* B4BA0 8011E4A0 2442FFFF */  addiu     $v0, $v0, -1
 /* B4BA4 8011E4A4 AC620000 */  sw        $v0, ($v1)

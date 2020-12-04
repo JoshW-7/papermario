@@ -1,4 +1,5 @@
 #include "common.h"
+#include "map.h"
 
 INCLUDE_ASM(s32, "code_20ec0_len_5040", func_80045AC0);
 
@@ -100,25 +101,27 @@ INCLUDE_ASM(s32, "code_20ec0_len_5040", func_8004824C);
 
 INCLUDE_ASM(s32, "code_20ec0_len_5040", spawn_drops);
 
+// The issues here are only in the beginning where max and min are flipped
 #ifdef NON_MATCHING
 s32 get_coin_drop_amount(Enemy* enemy) {
-    EncounterStatus* currentEncounter;
+    EncounterStatus* currentEncounter = &gCurrentEncounter;
+    s16* dropTables = enemy->dropTables;
+    s32 t1;
+    s32 t2;
     s32 amt;
-
     s32 diff;
-    s32 a;
     s32 max;
     s32 min;
 
-    currentEncounter = &gCurrentEncounter;
+    t1 = dropTables[89];
+    t2 = dropTables[90];
 
-    min = enemy->dropTables[89];
-    max = enemy->dropTables[90];
-    a = min;
+    min = t1;
+    max = t2;
 
     if (max < min) {
-        min = max;
-        max = a;
+        min = t2;
+        max = t1;
     }
 
     diff = max - min;
@@ -181,7 +184,7 @@ s32 is_point_within_region(s32 shape, f32 pointX, f32 pointY, f32 centerX, f32 c
     }
 }
 
-INCLUDE_ASM(s32, "code_20ec0_len_5040", func_800490B4);
+INCLUDE_ASM(s32, "code_20ec0_len_5040", func_800490B4, s32 arg0, Enemy* arg1, f32 arg2, s32 arg3, s32 arg4);
 
 INCLUDE_ASM(s32, "code_20ec0_len_5040", func_800493EC);
 
@@ -193,7 +196,16 @@ INCLUDE_ASM(s32, "code_20ec0_len_5040", func_800495A0);
 
 INCLUDE_ASM(s32, "code_20ec0_len_5040", func_800496B8);
 
-INCLUDE_ASM(s32, "code_20ec0_len_5040", func_80049B44);
+// Same as UnkNpcAIFunc1
+void func_80049B44(ScriptInstance* script, NpcAISettings* aiSettings) {
+    Enemy* enemy = script->owner1.enemy;
+    Npc* npc = get_npc_unsafe(enemy->npcID);
+
+    npc->duration = (aiSettings->waitTime / 2) + rand_int((aiSettings->waitTime / 2) + 1);
+    npc->yaw = clamp_angle(npc->yaw + rand_int(180) - 90.0f);
+    npc->currentAnim = *enemy->animList;
+    script->functionTemp[0].s = 3;
+}
 
 INCLUDE_ASM(s32, "code_20ec0_len_5040", func_80049C04);
 
@@ -207,7 +219,7 @@ INCLUDE_ASM(s32, "code_20ec0_len_5040", func_8004A124);
 
 INCLUDE_ASM(s32, "code_20ec0_len_5040", func_8004A3E8);
 
-INCLUDE_ASM(s32, "code_20ec0_len_5040", DoBasicAI);
+INCLUDE_ASM(s32, "code_20ec0_len_5040", DoBasicAI, ScriptInstance* script, s32 isInitialCall);
 
 INCLUDE_ASM(s32, "code_20ec0_len_5040", func_8004A6F0);
 

@@ -32,8 +32,8 @@ glabel collision_main_above
 /* 7BCFC 800E284C E7A00024 */   swc1     $f0, 0x24($sp)
 /* 7BD00 800E2850 C7A2001C */  lwc1      $f2, 0x1c($sp)
 /* 7BD04 800E2854 44800000 */  mtc1      $zero, $f0
-/* 7BD08 800E2858 3C128016 */  lui       $s2, 0x8016
-/* 7BD0C 800E285C 2652A550 */  addiu     $s2, $s2, -0x5ab0
+/* 7BD08 800E2858 3C128016 */  lui       $s2, %hi(gCollisionStatus)
+/* 7BD0C 800E285C 2652A550 */  addiu     $s2, $s2, %lo(gCollisionStatus)
 /* 7BD10 800E2860 46001032 */  c.eq.s    $f2, $f0
 /* 7BD14 800E2864 00000000 */  nop       
 /* 7BD18 800E2868 45010004 */  bc1t      .L800E287C
@@ -55,9 +55,9 @@ glabel collision_main_above
 /* 7BD54 800E28A4 00431021 */  addu      $v0, $v0, $v1
 /* 7BD58 800E28A8 000210C0 */  sll       $v0, $v0, 3
 /* 7BD5C 800E28AC 46001081 */  sub.s     $f2, $f2, $f0
-/* 7BD60 800E28B0 3C01800B */  lui       $at, 0x800b
+/* 7BD60 800E28B0 3C01800B */  lui       $at, %hi(D_800B1DEC)
 /* 7BD64 800E28B4 00220821 */  addu      $at, $at, $v0
-/* 7BD68 800E28B8 C4201DEC */  lwc1      $f0, 0x1dec($at)
+/* 7BD68 800E28B8 C4201DEC */  lwc1      $f0, %lo(D_800B1DEC)($at)
 /* 7BD6C 800E28BC 46001080 */  add.s     $f2, $f2, $f0
 /* 7BD70 800E28C0 27A50020 */  addiu     $a1, $sp, 0x20
 .L800E28C4:

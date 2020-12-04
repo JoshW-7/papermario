@@ -18,8 +18,8 @@ glabel func_8011EA54
 .L8011EA88:
 /* B5188 8011EA88 2402F7FF */  addiu     $v0, $zero, -0x801
 /* B518C 8011EA8C 00822024 */  and       $a0, $a0, $v0
-/* B5190 8011EA90 3C038015 */  lui       $v1, 0x8015
-/* B5194 8011EA94 8C633A40 */  lw        $v1, 0x3a40($v1)
+/* B5190 8011EA90 3C038015 */  lui       $v1, %hi(gCurrentAnimMeshListPtr)
+/* B5194 8011EA94 8C633A40 */  lw        $v1, %lo(gCurrentAnimMeshListPtr)($v1)
 /* B5198 8011EA98 00041080 */  sll       $v0, $a0, 2
 /* B519C 8011EA9C 00431021 */  addu      $v0, $v0, $v1
 /* B51A0 8011EAA0 8C500000 */  lw        $s0, ($v0)
@@ -73,8 +73,8 @@ glabel func_8011EA54
 /* B524C 8011EB4C 0220282D */   daddu    $a1, $s1, $zero
 /* B5250 8011EB50 0000882D */  daddu     $s1, $zero, $zero
 /* B5254 8011EB54 2412FFFF */  addiu     $s2, $zero, -1
-/* B5258 8011EB58 3C108015 */  lui       $s0, 0x8015
-/* B525C 8011EB5C 261033C0 */  addiu     $s0, $s0, 0x33c0
+/* B5258 8011EB58 3C108015 */  lui       $s0, %hi(D_801533C0)
+/* B525C 8011EB5C 261033C0 */  addiu     $s0, $s0, %lo(D_801533C0)
 .L8011EB60:
 /* B5260 8011EB60 8E020000 */  lw        $v0, ($s0)
 /* B5264 8011EB64 04420008 */  bltzl     $v0, .L8011EB88
@@ -93,8 +93,8 @@ glabel func_8011EA54
 /* B5290 8011EB90 26100008 */   addiu    $s0, $s0, 8
 /* B5294 8011EB94 0000882D */  daddu     $s1, $zero, $zero
 /* B5298 8011EB98 2412FFFF */  addiu     $s2, $zero, -1
-/* B529C 8011EB9C 3C108015 */  lui       $s0, 0x8015
-/* B52A0 8011EBA0 261036C0 */  addiu     $s0, $s0, 0x36c0
+/* B529C 8011EB9C 3C108015 */  lui       $s0, %hi(D_801536C0)
+/* B52A0 8011EBA0 261036C0 */  addiu     $s0, $s0, %lo(D_801536C0)
 .L8011EBA4:
 /* B52A4 8011EBA4 8E020000 */  lw        $v0, ($s0)
 /* B52A8 8011EBA8 04420008 */  bltzl     $v0, .L8011EBCC

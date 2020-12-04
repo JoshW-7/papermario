@@ -27,21 +27,31 @@ void set_defeated(s32 mapID, s32 encounterID) {
     currentEncounter->defeatFlags[mapID][encounterIdx] |= (1 << encounterShift);*/
 }
 
-INCLUDE_ASM(s32, "code_1a1f0_len_5390", func_8003EE98);
+ApiStatus func_8003EE98(ScriptInstance* script, s32 isInitialCall) {
+    if (isInitialCall) {
+        func_80045D00(0, 60);
+    }
+    return (func_80045FA4() == 0) * ApiStatus_DONE2;
+}
 
-INCLUDE_ASM(s32, "code_1a1f0_len_5390", func_8003EECC);
+ApiStatus func_8003EECC(ScriptInstance* script, s32 isInitialCall) {
+    if (isInitialCall) {
+        func_80045D00(1, 60);
+    }
+    return (func_80045FA4() == 0) * ApiStatus_DONE2;
+}
 
 INCLUDE_ASM(s32, "code_1a1f0_len_5390", FadeBackgroundToBlack);
 
 ApiStatus UnfadeBackgroundFromBlack(ScriptInstance* script, s32 isInitialCall) {
     if (isInitialCall) {
-        script->functionTemp[0] = 25;
+        script->functionTemp[0].s = 25;
     }
 
-    set_background_color_blend(0, 0, 0, (script->functionTemp[0] * 10) & 0xFE);
-    script->functionTemp[0] -= 5;
+    set_background_color_blend(0, 0, 0, (script->functionTemp[0].s * 10) & 0xFE);
+    script->functionTemp[0].s -= 5;
 
-    if (script->functionTemp[0] == 0) {
+    if (script->functionTemp[0].s == 0) {
         set_background_color_blend(0, 0, 0, 0);
         return ApiStatus_DONE2;
     } else {
@@ -49,7 +59,22 @@ ApiStatus UnfadeBackgroundFromBlack(ScriptInstance* script, s32 isInitialCall) {
     }
 }
 
-INCLUDE_ASM(s32, "code_1a1f0_len_5390", func_8003F018);
+ApiStatus func_8003F018(ScriptInstance* script, s32 isInitialCall) {
+    Npc* npc = get_npc_unsafe(-0xA);
+
+    if (isInitialCall) {
+        play_sound(0x24B);
+        npc->unk_AC = 0;
+    }
+
+    npc->unk_AC += 17;
+
+    if ((u32)(npc->unk_AC & 0xFF) >= 0xFF) {
+        npc->unk_AC = 0xFF;
+        return ApiStatus_DONE1;
+    }
+    return ApiStatus_BLOCK;
+}
 
 INCLUDE_ASM(s32, "code_1a1f0_len_5390", func_8003F084);
 
@@ -58,10 +83,9 @@ INCLUDE_ASM(s32, "code_1a1f0_len_5390", func_8003F0C4);
 INCLUDE_ASM(s32, "code_1a1f0_len_5390", func_8003F384);
 
 ApiStatus GetCamLookAtObjVector(ScriptInstance* script, s32 isInitialCall) {
-    // Almost certainly a CURRENT_CAM macro
-    script->varTable[0] = (&gCameras[gCurrentCameraID])->lookAt_obj[0];
-    script->varTable[1] = (&gCameras[gCurrentCameraID])->lookAt_obj[1];
-    script->varTable[2] = (&gCameras[gCurrentCameraID])->lookAt_obj[2];
+    script->varTable[0] = CURRENT_CAM->lookAt_obj.x;
+    script->varTable[1] = CURRENT_CAM->lookAt_obj.y;
+    script->varTable[2] = CURRENT_CAM->lookAt_obj.z;
 
     return ApiStatus_DONE2;
 }
@@ -86,13 +110,13 @@ ApiStatus OnFleeBattleDrops(ScriptInstance* script, s32 isInitialCall) {
     PlayerData* playerData = &gPlayerData;
 
     if (isInitialCall) {
-        script->functionTemp[0] = 0;
-        script->functionTemp[1] = 40;
-        script->functionTemp[2] = 0;
+        script->functionTemp[0].s = 0;
+        script->functionTemp[1].s = 40;
+        script->functionTemp[2].s = 0;
     }
 
-    script->functionTemp[2]++;
-    if (script->functionTemp[2] >= 5) {
+    script->functionTemp[2].s++;
+    if (script->functionTemp[2].s >= 5) {
         if (rand_int(100) < 50) {
             if (playerData->coins != 0) {
                 playerData->coins--;
@@ -100,10 +124,10 @@ ApiStatus OnFleeBattleDrops(ScriptInstance* script, s32 isInitialCall) {
                                          playerStatus->position.z, 3, 0, 0);
             }
         }
-        script->functionTemp[2] = 0;
+        script->functionTemp[2].s = 0;
     }
 
-    return --script->functionTemp[1] == 0;
+    return --script->functionTemp[1].s == 0;
 }
 
 INCLUDE_ASM(s32, "code_1a1f0_len_5390", func_8003F7CC);

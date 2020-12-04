@@ -13,8 +13,8 @@ glabel func_80147698
 /* DDDB8 801476B8 00171140 */  sll       $v0, $s7, 5
 /* DDDBC 801476BC F7B400E8 */  sdc1      $f20, 0xe8($sp)
 /* DDDC0 801476C0 4480A000 */  mtc1      $zero, $f20
-/* DDDC4 801476C4 3C0B8016 */  lui       $t3, %hi(D_80159D50)
-/* DDDC8 801476C8 256B9D50 */  addiu     $t3, $t3, %lo(D_80159D50)
+/* DDDC4 801476C4 3C0B8016 */  lui       $t3, %hi(gUIPanels)
+/* DDDC8 801476C8 256B9D50 */  addiu     $t3, $t3, %lo(gUIPanels)
 /* DDDCC 801476CC AFBE00E0 */  sw        $fp, 0xe0($sp)
 /* DDDD0 801476D0 004BF021 */  addu      $fp, $v0, $t3
 /* DDDD4 801476D4 AFBF00E4 */  sw        $ra, 0xe4($sp)
@@ -30,8 +30,8 @@ glabel func_80147698
 /* DDDF8 801476F8 064200E2 */  bltzl     $s2, .L80147A84
 /* DDDFC 801476FC 26D60001 */   addiu    $s6, $s6, 1
 /* DDE00 80147700 00121140 */  sll       $v0, $s2, 5
-/* DDE04 80147704 3C0B8016 */  lui       $t3, %hi(D_80159D50)
-/* DDE08 80147708 256B9D50 */  addiu     $t3, $t3, %lo(D_80159D50)
+/* DDE04 80147704 3C0B8016 */  lui       $t3, %hi(gUIPanels)
+/* DDE08 80147708 256B9D50 */  addiu     $t3, $t3, %lo(gUIPanels)
 /* DDE0C 8014770C 004B8821 */  addu      $s1, $v0, $t3
 /* DDE10 80147710 92220000 */  lbu       $v0, ($s1)
 /* DDE14 80147714 504000DB */  beql      $v0, $zero, .L80147A84
@@ -68,8 +68,8 @@ glabel func_80147698
 /* DDE90 80147790 86350012 */  lh        $s5, 0x12($s1)
 /* DDE94 80147794 10400022 */  beqz      $v0, .L80147820
 /* DDE98 80147798 00051080 */   sll      $v0, $a1, 2
-/* DDE9C 8014779C 3C038015 */  lui       $v1, 0x8015
-/* DDEA0 801477A0 2463F250 */  addiu     $v1, $v1, -0xdb0
+/* DDE9C 8014779C 3C038015 */  lui       $v1, %hi(D_8014F250)
+/* DDEA0 801477A0 2463F250 */  addiu     $v1, $v1, %lo(D_8014F250)
 /* DDEA4 801477A4 00451021 */  addu      $v0, $v0, $a1
 /* DDEA8 801477A8 00438021 */  addu      $s0, $v0, $v1
 /* DDEAC 801477AC 92230000 */  lbu       $v1, ($s1)
@@ -171,9 +171,9 @@ glabel func_80147698
 /* DE018 80147918 00121080 */  sll       $v0, $s2, 2
 /* DE01C 8014791C 8E290014 */  lw        $t1, 0x14($s1)
 /* DE020 80147920 8E2A0018 */  lw        $t2, 0x18($s1)
-/* DE024 80147924 3C058015 */  lui       $a1, 0x8015
+/* DE024 80147924 3C058015 */  lui       $a1, %hi(D_8014F150)
 /* DE028 80147928 00A22821 */  addu      $a1, $a1, $v0
-/* DE02C 8014792C 8CA5F150 */  lw        $a1, -0xeb0($a1)
+/* DE02C 8014792C 8CA5F150 */  lw        $a1, %lo(D_8014F150)($a1)
 /* DE030 80147930 14800003 */  bnez      $a0, .L80147940
 /* DE034 80147934 27B00050 */   addiu    $s0, $sp, 0x50
 /* DE038 80147938 240200FF */  addiu     $v0, $zero, 0xff

@@ -38,30 +38,31 @@ extern s32 gScriptIndexList[MAX_SCRIPTS];
 
 extern s32 gMoveScriptTable[][4];
 
-extern Model* gWorldModelList[256];
-extern Model* gBattleModelList[256];
-extern Model** gCurrentModelListPtr[256];
+extern ModelList gWorldModelList;
+extern ModelList gBattleModelList;
+extern ModelList* gCurrentModelListPtr;
 
+// TODO: potentially a display list, figure this out
 extern u32* gWorldModelSpecialDls[32];
 extern u32* gBattleModelSpecialDls[32];
 extern u32** gCurrentModelSpecialDlsPtr[32];
 
-extern Entity* gWorldEntityList[30];
-extern Entity* gBattleEntityList[30];
-extern Entity** gCurrentEntityListPtr[30];
+extern EntityList gWorldEntityList;
+extern EntityList gBattleEntityList;
+extern EntityList* gCurrentEntityListPtr;
 extern s32 gLastCreatedEntityIndex;
 
-extern UNK_TYPE* gWorldDynamicEntityList[16];
-extern UNK_TYPE* gBattleDynamicEntityList[16];
-extern UNK_TYPE*** gCurrentDynamicEntityListPtr;
+extern DynamicEntityList gWorldDynamicEntityList;
+extern DynamicEntityList gBattleDynamicEntityList;
+extern DynamicEntityList* gCurrentDynamicEntityListPtr;
 
-extern Npc* gWorldNpcList[64];
-extern Npc* gBattleNpcList[64];
-extern Npc** gCurrentNpcListPtr[64];
+extern NpcList gWorldNpcList;
+extern NpcList gBattleNpcList;
+extern NpcList* gCurrentNpcListPtr;
 
-extern Shadow* gWorldShadowList[60];
-extern Shadow* gBattleShadowList[60];
-extern Shadow** gCurrentShadowListPtr[60];
+extern ShadowList gWorldShadowList;
+extern ShadowList gBattleShadowList;
+extern ShadowList* gCurrentShadowListPtr;
 
 extern Camera gCameras[4];
 extern s32 gCurrentCameraID;
@@ -79,24 +80,33 @@ extern s32 D_8010CD20;
 extern s32 D_8010EF08;
 extern s32 D_8010F094; // player shadow index?
 extern s32 D_801595A0;
-extern s16 D_80159AE2;
-extern s16 D_80159AE4;
 extern BackgroundHeader gBackgroundImage;
 
 extern PrintContext* gCurrentPrintContext;
 extern s32 D_802DB264;
 extern PrintContext* D_802DB268;
 
+// Animation related
+extern AnimatedMeshList* gCurrentAnimMeshListPtr;
+
+extern PartnerAnimations gPartnerAnimations[12];
+
+extern AnimatedModelList gBattleMeshAnimationList;
+extern AnimatedModelList gWorldMeshAnimationList;
+extern AnimatedModelList* gCurrentMeshAnimationListPtr;
+
 // Triggers
 extern s16 gTriggerCount;
-extern Trigger* gTriggerList1[64];
-extern Trigger* gTriggerList2[64];
-extern Trigger** gCurrentTriggerListPtr[64];
+extern TriggerList gTriggerList1;
+extern TriggerList gTriggerList2;
+extern TriggerList* gCurrentTriggerListPtr;
 
 // Map transition data. Should probably be a struct
 extern u16 gMapTransitionAlpha;
 extern s16 D_800A0942;
 extern s16 D_800A0944;
+extern s16 D_800A0946;
+extern s16 D_800A0948;
 extern s16 D_800A0954;
 extern s16 D_800A0956;
 extern s16 D_800A0958;
@@ -109,8 +119,63 @@ extern u8 D_800A095F;
 extern s32 D_800A0960;
 extern s32 D_800A0964;
 
+extern UIPanel gUIPanels[64];
+
 // Pause
+extern s32 gPauseMenuHeldButtons;
+extern s32 gPauseMenuPressedButtons;
+extern s32 gPauseMenuCurrentDescString;
+extern Bytecode* gPauseMenuCurrentDescIconScript;
+extern s8 gPauseMenuCurrentTab;
+extern s32 gPauseMenuCommonIconIDs[8];
+extern s32 gPauseMenuTabIconIDs[6];
 extern s32 gPauseMenuStrings[348];
+extern s32 gPauseMenuIconScripts[8];
+extern MenuTab* gPauseMenuTabs[7];
+extern s32 gPauseMenuCursorPosX;
+extern s32 gPauseMenuCursorPosY;
+extern s32 gPauseMenuCursorOpacity;
+extern s32 gPauseMenuTargetPosX;
+extern s32 gPauseMenuTargetPosY;
+extern s32 gPauseMenuCursorTargetOpacity;
+extern u8 gPauseMenuTextScrollInterpEasingLUT[16];
+extern u8 gPauseMenuPageScrollInterpEasingLUT[16];
+
+// Badges
+extern s32 gBadgeMenuCurrentScrollPos;
+extern s32 gBadgeMenuTargetScrollPos;
+extern ItemId gBadgeMenuItemIDs[128];
+extern s32 gBadgeMenuCurrentPage;
+extern PauseItemPage gBadgeMenuPages[20];
+extern s32 gBadgeMenuSelectedIndex;
+extern s32 gBadgeMenuSelectedItemID;
+extern s16 gBadgeMenuNumItems;
+extern s32 D_80270388;
+extern s32 D_80270394;
+extern s32 gBadgeMenuLevel;
+extern s32 gBadgeMenuCurrentTab;
+extern s32 gBadgeMenuBShowNotEnoughBP;
+extern s32 D_802703A4;
+extern s32 D_802703A8;
+
+// Items
+extern s16 gItemMenuItemIDs[100];
+extern s32 gItemMenuCurrentPage;
+extern PauseItemPage gItemMenuPages[20];
+extern s32 gItemMenuSelectedIndex;
+extern s32 gItemMenuSelectedItemID;
+extern s16 gItemMenuNumItems;
+extern s32 D_802705D0;
+extern s32 gItemMenuCurrentScrollPos;
+extern s32 gItemMenuTargetScrollPos;
+extern s32 D_802705DC;
+extern s32 gItemMenuLevel;
+extern s32 gItemMenuCurrentTab;
+extern s32 gItemMenuScrollUpIcon;
+
+// Stats
+extern s32 gStatsMenuIconIDs[12];
+
 
 extern s32 gGameState;
 extern s32 D_8009A650[1];
@@ -155,11 +220,17 @@ extern s32 D_8009A5D8;
 extern u8 D_800779B0;
 extern u8 D_800A0963;
 
-extern s32 mapScriptLibStart;
-extern s32 mapScriptLibEnd;
-extern s32 mapScriptLibVram;
-
 // Scripts
 extern Bytecode* SCRIPT_NpcDefeat;
+extern Bytecode* ShakeCam1;
+extern Bytecode* ShakeCamX;
+extern Bytecode* D_802D9D50;
+
+extern s16 gMusicUnkVolume;
+extern s16 gMusicUnkVolume2;
+extern s16 gMusicCurrentVolume;
+extern s16 gMusicTargetVolume;
+extern MusicPlayer gMusicPlayers[4];
+extern MusicPlayer D_8014F6F0;
 
 #endif

@@ -17,7 +17,7 @@ gPlayerNpcPtr = 0x802D9D20;
 D_80147574 = 0x80147574;
 D_8010EBB0 = 0x8010EBB0;
 D_8010F250 = 0x8010F250;
-D_80159D50 = 0x80159D50;
+gUIPanels = 0x80159D50;
 
 gWorldMapVars = 0x802DBCA8;
 gBattleMapVars = 0x802DBCE8;
@@ -26,9 +26,10 @@ gWorldMapFlags = 0x802DBC70;
 gBattleMapFlags = 0x802DBD34;
 
 gMapTransitionAlpha = 0x800A0940;
-D_800A0940 = 0x800A0940;
 D_800A0942 = 0x800A0942;
 D_800A0944 = 0x800A0944;
+D_800A0946 = 0x800A0946;
+D_800A0948 = 0x800A0948;
 D_800A0954 = 0x800A0954;
 D_800A0956 = 0x800A0956;
 D_800A0958 = 0x800A0958;
@@ -43,6 +44,9 @@ D_800A0963 = 0x800A0963;
 D_800A0964 = 0x800A0964;
 
 D_800E92D8 = 0x800E92D8;
+
+gPartnerAnimations = 0x800F8348;
+
 D_80147474 = 0x80147474;
 D_80109270 = 0x80109270;
 D_80108558 = 0x80108558;
@@ -57,20 +61,17 @@ D_8010F094 = 0x8010F094;
 D_800D9620 = 0x800D9620;
 
 gSpeakingActorPrintCtx = 0x8029FA60;
+D_8029FA64 = 0x8029FA64;
 gSpeakingActorPrintIsDone = 0x8029FA68;
 gSpeakingActorTalkAnim = 0x8029FA6C;
 gSpeakingActorIdleAnim = 0x8029FA70;
 gSpeakingActor = 0x8029FA74;
-gSpeakingActorPart = 0x8029FA7C;
+gSpeakingActorPart = 0x8029FA78;
 
 gBattleDmaDest = 0x80284000;
 gBattleState = 0x800DC068;
 gBattleStatus = 0x800DC070;
 gPauseMenuStrings = 0x8026F778;
-
-mapScriptLibStart = 0x7E0E80;
-mapScriptLibEnd = 0x7E73A0;
-mapScriptLibVram = 0x80280000;
 
 D_000759B0 = 0x000759B0;
 D_000759B0_end = 0x000A5DD0;
@@ -145,6 +146,58 @@ D_800DC500 = 0x800DC500;
 D_8010F6D0 = 0x8010F6D0;
 
 gBackgroundImage = 0x80200000;
+
+gPauseMenuIconScripts = 0x8024EF60;
+gPauseMenuTabs = 0x8024EF80;
+gPauseMenuCursorPosX = 0x8024EF9C;
+gPauseMenuCursorPosY = 0x8024EFA0;
+gPauseMenuCursorOpacity = 0x8024EFA4;
+gPauseMenuTargetPosX = 0x8024EFA8;
+gPauseMenuTargetPosY = 0x8024EFAC;
+gPauseMenuCursorTargetOpacity = 0x8024EFB0;
+
+gPauseMenuTextScrollInterpEasingLUT = 0x8024F0AC;
+gPauseMenuPageScrollInterpEasingLUT = 0x8024F0BC;
+
+gPauseMenuHeldButtons = 0x802700C0;
+gPauseMenuPressedButtons = 0x802700C4;
+gPauseMenuCurrentDescString = 0x802700C8;
+gPauseMenuCurrentDescIconScript = 0x802700CC;
+gPauseMenuCurrentTab = 0x802700D4;
+gPauseMenuCommonIconIDs = 0x802700E8;
+
+gPauseMenuTabIconIDs = 0x80270130;
+gStatsMenuIconIDs = 0x80270150;
+gBadgeMenuItemIDs = 0x80270180;
+gBadgeMenuCurrentPage = 0x80270280;
+gBadgeMenuPages = 0x80270288;
+gBadgeMenuSelectedIndex = 0x80270378;
+gBadgeMenuSelectedItemID = 0x80270380;
+gBadgeMenuNumItems = 0x80270384;
+D_80270388 = 0x80270388;
+gBadgeMenuCurrentScrollPos = 0x8027038C;
+gBadgeMenuTargetScrollPos = 0x80270390;
+D_80270394 = 0x80270394;
+gBadgeMenuLevel = 0x80270398;
+gBadgeMenuCurrentTab = 0x8027039C;
+gBadgeMenuBShowNotEnoughBP = 0x802703A0;
+D_802703A4 = 0x802703A4;
+D_802703A8 = 0x802703A8;
+
+gItemMenuItemIDs = 0x80270400;
+gItemMenuCurrentPage = 0x802704C8;
+gItemMenuPages = 0x802704D0;
+gItemMenuSelectedIndex = 0x802705C0;
+gItemMenuSelectedItemID = 0x802705C8;
+gItemMenuNumItems = 0x802705CC;
+D_802705D0 = 0x802705D0;
+gItemMenuCurrentScrollPos = 0x802705D4;
+gItemMenuTargetScrollPos = 0x802705D8;
+D_802705DC = 0x802705DC;
+gItemMenuLevel = 0x802705E0;
+gItemMenuCurrentTab = 0x802705E4;
+gItemMenuScrollUpIcon = 0x80270628;
+
 D_802C3000 = 0x802C3000;
 D_802DBD40 = 0x802DBD40;
 gCurrentPrintContext = 0x802DB260;
@@ -173,14 +226,20 @@ D_80151328 = 0x80151328;
 gCurrentDoorSoundsSet = 0x80151340;
 
 gTriggerCount = 0x80151334;
+D_80156954 = 0x80156954;
 gTriggerList1 = 0x80159190;
 gTriggerList2 = 0x80159290;
 gCurrentTriggerListPtr = 0x80159390;
 
 D_801595A0 = 0x801595A0;
-D_80159AE2 = 0x80159AE2;
-D_80159AE4 = 0x80159AE4;
-gCollisionStatus = 0x8015A55A0;
+gMusicUnkVolume = 0x80159AE0;
+gMusicTargetVolume = 0x80159AE2;
+gMusicUnkVolume2 = 0x80159AE4;
+gMusicCurrentVolume = 0x80159AE6;
+gMusicPlayers = 0x80159AF0;
+D_8014F6F0 = 0x8014F6F0;
+
+gCollisionStatus = 0x8015A550;
 D_8015C7C0 = 0x8015C7C0;
 gLastCreatedEntityIndex = 0x801512EC;
 
@@ -188,9 +247,11 @@ gWorldModelList = 0x80151770;
 gBattleModelList = 0x80151B70;
 gCurrentModelListPtr = 0x801512CC;
 
-gWorldModelSpecialDls = 0x8015F90;
-gBattleModelSpecialDls = 0x80152010;
+gCurrentAnimMeshListPtr = 0x80153A40;
+
 gCurrentModelSpecialDlsPtr = 0x801512E8;
+gWorldModelSpecialDls = 0x80151F90;
+gBattleModelSpecialDls = 0x80152010;
 
 gWorldEntityList = 0x80151380;
 gBattleEntityList = 0x801513F8;
@@ -213,6 +274,8 @@ gWorldDynamicEntityList = 0x801543A0;
 gBattleDynamicEntityList = 0x801543E0;
 gCurrentDynamicEntityListPtr = 0x80154420;
 
+D_802D9D50 = 0x802D9D50;
+
 gScriptIndexList = 0x802DA898;
 gScriptIdList = 0x802DAA98;
 gScriptListCount = 0x802DAC98;
@@ -222,9 +285,16 @@ gCurrentSaveFile = 0x800DACC0;
 gMapFlags = 0x802DA480;
 gMapVars = 0x802DA484;
 
+gBattleMeshAnimationList = 0x802DADB0;
+gWorldMeshAnimationList = 0x802DADF0;
+gCurrentMeshAnimationListPtr = 0x802DAE30;
+
 gEffectTable = 0x8007F214;
 
 gPauseMenuStrings = 0x8026F778;
+
+EnterWalk = 0x80285960;
+ExitWalk = 0x80285CF4;
 
 MarioEnterStage = 0x80284A40;
 PeachEnterStage = 0x80284D04;
@@ -253,3 +323,12 @@ DoSpinSmashHit = 0x8029B998;
 DoStopHit = 0x80294650;
 ShakeCam1 = 0x802D9CB0;
 ShakeCamX = 0x802D9CE8;
+
+EnemyNpcHit = 0x80077F70;
+EnemyNpcDefeat = 0x8007809C;
+
+D_80078DB0 = 0x80078DB0;
+D_80078DB4 = 0x80078DB4;
+
+gSongsUsingVariationFlag = 0x8014F720;
+D_8014F738 = 0x8014F738;

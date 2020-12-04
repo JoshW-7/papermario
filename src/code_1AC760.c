@@ -20,11 +20,11 @@ INCLUDE_ASM(s32, "code_1AC760", func_8027FC90);
 
 ApiStatus GetActorLevel(ScriptInstance* script, s32 isInitialCall) {
     Bytecode* args = script->ptrReadPos;
-    s32 actorID = get_variable(script, *args++);
+    ActorID actorID = get_variable(script, *args++);
     Bytecode* outVar;
 
-    if (actorID == -0x7F) {
-        actorID = script->ownerActorID;
+    if (actorID == ActorID_SELF) {
+        actorID = script->owner1.enemyID;
     }
 
     outVar = *args++;

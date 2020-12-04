@@ -1,3 +1,6 @@
 capstone
-pycparser
 PyYAML
+lark-parser
+python-ranges
+pypng
+colorama

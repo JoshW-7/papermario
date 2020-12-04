@@ -14,17 +14,17 @@ glabel pause_spirits_draw_title
 /* 1405F8 8024D2B8 0C039D59 */  jal       get_player_data
 /* 1405FC 8024D2BC 00E0882D */   daddu    $s1, $a3, $zero
 /* 140600 8024D2C0 0040202D */  daddu     $a0, $v0, $zero
-/* 140604 8024D2C4 3C038027 */  lui       $v1, 0x8027
-/* 140608 8024D2C8 806300D4 */  lb        $v1, 0xd4($v1)
+/* 140604 8024D2C4 3C038027 */  lui       $v1, %hi(gPauseMenuCurrentTab)
+/* 140608 8024D2C8 806300D4 */  lb        $v1, %lo(gPauseMenuCurrentTab)($v1)
 /* 14060C 8024D2CC 24020005 */  addiu     $v0, $zero, 5
 /* 140610 8024D2D0 1462001C */  bne       $v1, $v0, .L8024D344
 /* 140614 8024D2D4 00000000 */   nop      
 /* 140618 8024D2D8 92020003 */  lbu       $v0, 3($s0)
 /* 14061C 8024D2DC 8083028E */  lb        $v1, 0x28e($a0)
 /* 140620 8024D2E0 00021080 */  sll       $v0, $v0, 2
-/* 140624 8024D2E4 3C048027 */  lui       $a0, 0x8027
+/* 140624 8024D2E4 3C048027 */  lui       $a0, %hi(D_802706E0)
 /* 140628 8024D2E8 00822021 */  addu      $a0, $a0, $v0
-/* 14062C 8024D2EC 8C8406E0 */  lw        $a0, 0x6e0($a0)
+/* 14062C 8024D2EC 8C8406E0 */  lw        $a0, %lo(D_802706E0)($a0)
 /* 140630 8024D2F0 0083182A */  slt       $v1, $a0, $v1
 /* 140634 8024D2F4 10600004 */  beqz      $v1, .L8024D308
 /* 140638 8024D2F8 3C02001D */   lui      $v0, 0x1d

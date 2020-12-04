@@ -6,8 +6,8 @@ glabel pause_cleanup
 /* 137A4C 8024470C AFB00010 */  sw        $s0, 0x10($sp)
 /* 137A50 80244710 0000802D */  daddu     $s0, $zero, $zero
 /* 137A54 80244714 AFB10014 */  sw        $s1, 0x14($sp)
-/* 137A58 80244718 3C118027 */  lui       $s1, 0x8027
-/* 137A5C 8024471C 263100E8 */  addiu     $s1, $s1, 0xe8
+/* 137A58 80244718 3C118027 */  lui       $s1, %hi(gPauseMenuCommonIconIDs)
+/* 137A5C 8024471C 263100E8 */  addiu     $s1, $s1, %lo(gPauseMenuCommonIconIDs)
 /* 137A60 80244720 AFBF0018 */  sw        $ra, 0x18($sp)
 .L80244724:
 /* 137A64 80244724 8E240000 */  lw        $a0, ($s1)
@@ -22,8 +22,8 @@ glabel pause_cleanup
 /* 137A88 80244748 34A55BDE */   ori      $a1, $a1, 0x5bde
 /* 137A8C 8024474C 1040000A */  beqz      $v0, .L80244778
 /* 137A90 80244750 0000802D */   daddu    $s0, $zero, $zero
-/* 137A94 80244754 3C118027 */  lui       $s1, 0x8027
-/* 137A98 80244758 2631011C */  addiu     $s1, $s1, 0x11c
+/* 137A94 80244754 3C118027 */  lui       $s1, %hi(D_8027011C)
+/* 137A98 80244758 2631011C */  addiu     $s1, $s1, %lo(D_8027011C)
 .L8024475C:
 /* 137A9C 8024475C 8E240000 */  lw        $a0, ($s1)
 /* 137AA0 80244760 26310004 */  addiu     $s1, $s1, 4
@@ -33,8 +33,8 @@ glabel pause_cleanup
 /* 137AB0 80244770 1440FFFA */  bnez      $v0, .L8024475C
 /* 137AB4 80244774 00000000 */   nop      
 .L80244778:
-/* 137AB8 80244778 3C118025 */  lui       $s1, 0x8025
-/* 137ABC 8024477C 2631EF80 */  addiu     $s1, $s1, -0x1080
+/* 137AB8 80244778 3C118025 */  lui       $s1, %hi(gPauseMenuTabs)
+/* 137ABC 8024477C 2631EF80 */  addiu     $s1, $s1, %lo(gPauseMenuTabs)
 /* 137AC0 80244780 0000802D */  daddu     $s0, $zero, $zero
 .L80244784:
 /* 137AC4 80244784 8E240000 */  lw        $a0, ($s1)

@@ -32,8 +32,6 @@ extern int D_802EB3D0[];
 extern u8 D_80074021;
 extern s32 D_8009A5D8;
 
-void dma_copy(void*, void*, void*);
-
 INCLUDE_ASM(s32, "code_1b40_len_20b0", step_game_loop);
 
 INCLUDE_ASM(s32, "code_1b40_len_20b0", func_800269EC);
@@ -111,7 +109,7 @@ INCLUDE_ASM(s32, "code_1b40_len_20b0", load_engine_data);
     set_game_mode(0);
 }*/
 
-INCLUDE_ASM(s32, "code_1b40_len_20b0", func_80027088);
+INCLUDE_ASM(void, "code_1b40_len_20b0", func_80027088, s32 arg0);
 
 s32 func_80027190(void) {
     return D_8009A5D8;

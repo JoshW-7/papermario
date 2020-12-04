@@ -23,7 +23,7 @@ void sort_scripts(void) {
         if (curScript != NULL) {
             if (curScript->state != 0) {
                 scriptIndexList[numValidScripts] = i;
-                scriptIdList[numValidScripts] = curScript->uniqueID;
+                scriptIdList[numValidScripts] = curScript->id;
                 numValidScripts++;
             }
         }
@@ -52,8 +52,6 @@ void sort_scripts(void) {
 INCLUDE_ASM(s32, "code_e79b0_len_1920", sort_scripts);
 #endif
 
-#ifdef NON_MATCHING
-// Very close. Reordering/branch likely issues
 void find_script_labels(ScriptInstance* script) {
     Bytecode* curLine;
     s32 type;
@@ -69,7 +67,7 @@ void find_script_labels(ScriptInstance* script) {
 
     j = 0;
     curLine = script->ptrNextLine;
-    for (j = 0; j < ARRAY_COUNT(script->labelIndices); j++) {
+    while (j < ARRAY_COUNT(script->labelIndices)) {
         type = *curLine++;
         numArgs = *curLine++;
         label = *curLine;
@@ -82,13 +80,11 @@ void find_script_labels(ScriptInstance* script) {
         if (type == 3) {
             script->labelIndices[j] = label;
             script->labelPositions[j] = curLine;
+            j++;
         }
     }
     PANIC();
 }
-#else
-INCLUDE_ASM(void, "code_e79b0_len_1920", find_script_labels);
-#endif
 
 void clear_script_list(void) {
     s32 i;
@@ -189,9 +185,9 @@ ScriptInstance* start_script(Bytecode* initialLine, s32 priority, s32 initialSta
     newScript->blockingParent = NULL;
     newScript->childScript = NULL;
     newScript->parentScript = NULL;
-    newScript->uniqueID = gStaticScriptCounter++;
-    newScript->ownerActorID = -1;
-    newScript->ownerID = -1;
+    newScript->id = gStaticScriptCounter++;
+    newScript->owner1.actorID = -1;
+    newScript->owner2.npcID = -1;
     newScript->loopDepth = -1;
     newScript->switchDepth = -1;
     newScript->groupFlags = ~0x10;
@@ -215,7 +211,7 @@ ScriptInstance* start_script(Bytecode* initialLine, s32 priority, s32 initialSta
     if ((D_802D9CA4 != 0) && ((newScript->state & 0x20) != 0)) {
         scriptListCount = gScriptListCount++;
         gScriptIndexList[scriptListCount] = curScriptIndex;
-        gScriptIdList[scriptListCount] = newScript->uniqueID;
+        gScriptIdList[scriptListCount] = newScript->id;
     }
     func_802C3390(newScript);
     {
@@ -231,13 +227,13 @@ INCLUDE_ASM(ScriptInstance*, "code_e79b0_len_1920", start_script, Bytecode* init
             s32 initialState);
 #endif
 
-#ifdef NON_MATCHING
-ScriptInstance* start_script_in_group(Bytecode* initialLine, u8 priority, s32 initialState, u8 groupFlags) {
+ScriptInstance* start_script_in_group(Bytecode* initialLine, u8 priority, u8 initialState, u8 groupFlags) {
     ScriptInstance* newScript;
     s32 scriptListCount;
     s32 i;
     s32 curScriptIndex;
-    s32* tempCounter = &gStaticScriptCounter;
+    s32* tempCounter;
+    s32* numScripts;
 
     for (i = 0; i < MAX_SCRIPTS; i++) {
         if ((*gCurrentScriptListPtr)[i] == NULL) {
@@ -248,59 +244,60 @@ ScriptInstance* start_script_in_group(Bytecode* initialLine, u8 priority, s32 in
     ASSERT(i < MAX_SCRIPTS);
     curScriptIndex = i;
 
-    SCRIPT_ALLOC(newScript, curScriptIndex);
+    (*gCurrentScriptListPtr)[curScriptIndex] = newScript = heap_malloc(sizeof(ScriptInstance));
+    numScripts = &gNumScripts;
+    (*numScripts)++;
+    ASSERT(newScript != NULL);
 
-    newScript->state = (initialState | 1);
-    newScript->ptrNextLine = initialLine;
-    newScript->ptrFirstLine = initialLine;
-    newScript->ptrCurrentLine = initialLine;
-    newScript->currentOpcode = 0;
-    newScript->priority = priority;
-    newScript->unk_60 = NULL;
-    newScript->blockingParent = NULL;
-    newScript->childScript = NULL;
-    newScript->parentScript = NULL;
-    newScript->uniqueID = gStaticScriptCounter++;
-    newScript->ownerActorID = -1;
-    newScript->ownerID = -1;
-    newScript->loopDepth = -1;
-    newScript->switchDepth = -1;
-    newScript->groupFlags = groupFlags;
-    newScript->ptrSavedPosition = NULL;
-    newScript->frameCounter = 0.0f;
-    newScript->unk_158 = 0;
-    newScript->timeScale = gGlobalTimeSpace;
+    // Some of this function is surely macros. I think we'll learn more as we do others in this file. -Ethan
+    do {
+        newScript->state = initialState | 1;
+        newScript->currentOpcode = 0;
+        newScript->priority = priority;
+        newScript->id = gStaticScriptCounter++;
+        newScript->ptrNextLine = initialLine;
+        newScript->ptrFirstLine = initialLine;
+        newScript->ptrCurrentLine = initialLine;
+        newScript->unk_60 = 0;
+        newScript->blockingParent = 0;
+        newScript->childScript = 0;
+        newScript->parentScript = 0;
+        newScript->owner1.actorID = -1;
+        newScript->owner2.npcID = -1;
+        newScript->loopDepth = -1;
+        newScript->switchDepth = -1;
+        newScript->groupFlags = groupFlags;
+        newScript->ptrSavedPosition = 0;
+        newScript->frameCounter = 0.0f;
+        newScript->unk_158 = 0;
+        newScript->timeScale = gGlobalTimeSpace;
+        scriptListCount = 0;
 
-    scriptListCount = 0;
+        for (i = 0; i < ((s32)((sizeof(newScript->varTable)) / (sizeof(newScript->varTable[0])))); i++) {
+            newScript->varTable[i] = 0;
+        }
+        for (i = 0; i < ((s32)((sizeof(newScript->varFlags)) / (sizeof(newScript->varFlags[0])))); i++) {
+            newScript->varFlags[i] = 0;
+        }
 
-    for (i = 0; i < 16; i++) {
-        newScript->varTable[i] = 0;
-    }
+        find_script_labels(newScript);
 
-    for (i = 0; i < 3; i++) {
-        newScript->varFlags[i] = 0;
-    }
-
-    find_script_labels(newScript);
-
-    if ((D_802D9CA4 != 0) && ((newScript->state & 0x20) != 0)) {
-        scriptListCount = gScriptListCount++;
-        gScriptIndexList[scriptListCount] = curScriptIndex;
-        gScriptIdList[scriptListCount] = newScript->uniqueID;
-    }
+        if ((D_802D9CA4 != 0) && (newScript->state & 0x20)) {
+            scriptListCount = gScriptListCount++;
+            gScriptIndexList[scriptListCount] = curScriptIndex;
+            gScriptIdList[scriptListCount] = newScript->id;
+        }
+    } while (0);
 
     func_802C3390(newScript);
+
+    tempCounter = &gStaticScriptCounter;
     if (*tempCounter == 0) {
         *tempCounter = 1;
     }
-}
 
-return newScript;
+    return newScript;
 }
-#else
-INCLUDE_ASM(ScriptInstance*, "code_e79b0_len_1920", start_script_in_group, Bytecode* initialLine, u8 priority,
-            s32 initialState, u8 groupFlags);
-#endif
 
 INCLUDE_ASM(s32, "code_e79b0_len_1920", start_child_script);
 
@@ -333,9 +330,9 @@ ScriptInstance* func_802C39F8(ScriptInstance* parentScript, Bytecode* nextLine, 
     child->parentScript = parentScript;
     child->childScript = NULL;
     child->priority = parentScript->priority;
-    child->uniqueID = gStaticScriptCounter++;
-    child->ownerActorID = parentScript->ownerActorID;
-    child->ownerID = parentScript->ownerID;
+    child->id = gStaticScriptCounter++;
+    child->owner1.actorID = parentScript->owner1.actorID;
+    child->owner2.npcID = parentScript->owner2.npcID;
     child->loopDepth = -1;
     child->switchDepth = -1;
     child->groupFlags = parentScript->groupFlags;
@@ -360,7 +357,7 @@ ScriptInstance* func_802C39F8(ScriptInstance* parentScript, Bytecode* nextLine, 
     if (D_802D9CA4 != 0) {
         scriptListCount = gScriptListCount++;
         gScriptIndexList[scriptListCount] = curScriptIndex;
-        gScriptIdList[scriptListCount] = child->uniqueID;
+        gScriptIdList[scriptListCount] = child->id;
     }
 
     temp6 = &gStaticScriptCounter;
@@ -502,12 +499,11 @@ void kill_script_by_ID(s32 id) {
 
     for (i = 0; i < MAX_SCRIPTS; i++) {
         scriptContextPtr = (*gCurrentScriptListPtr)[i];
-        if (scriptContextPtr != NULL && scriptContextPtr->uniqueID == id) {
+        if (scriptContextPtr != NULL && scriptContextPtr->id == id) {
             kill_script(scriptContextPtr);
         }
     }
 }
-
 
 void kill_all_scripts(void) {
     s32 i;
@@ -527,11 +523,11 @@ s32 does_script_exist(s32 id) {
 
     for (i = 0; i < MAX_SCRIPTS; i++) {
         scriptContextPtr = (*gCurrentScriptListPtr)[i];
-        if (scriptContextPtr != NULL && scriptContextPtr->uniqueID == id) {
-            return 1;
+        if (scriptContextPtr != NULL && scriptContextPtr->id == id) {
+            return TRUE;
         }
     }
-    return 0;
+    return FALSE;
 }
 
 s32 does_script_exist_by_ref(ScriptInstance* script) {
@@ -539,10 +535,10 @@ s32 does_script_exist_by_ref(ScriptInstance* script) {
 
     for (i = 0; i < MAX_SCRIPTS; i++) {
         if (script == (*gCurrentScriptListPtr)[i]) {
-            return 1;
+            return TRUE;
         }
     }
-    return 0;
+    return FALSE;
 }
 
 void set_script_priority(ScriptInstance* script, s8 priority) {
@@ -638,7 +634,7 @@ s32 suspend_all_script(s32 id) {
 
     for (i = 0; i < MAX_SCRIPTS; i++) {
         scriptContextPtr = (*gCurrentScriptListPtr)[i];
-        if (scriptContextPtr != NULL && scriptContextPtr->uniqueID == id) {
+        if (scriptContextPtr != NULL && scriptContextPtr->id == id) {
             suspend_group_script(scriptContextPtr, 0xEF);
         }
     }
@@ -650,7 +646,7 @@ s32 resume_all_script(s32 id) {
 
     for (i = 0; i < MAX_SCRIPTS; i++) {
         scriptContextPtr = (*gCurrentScriptListPtr)[i];
-        if (scriptContextPtr != NULL && scriptContextPtr->uniqueID == id) {
+        if (scriptContextPtr != NULL && scriptContextPtr->id == id) {
             resume_group_script(scriptContextPtr, 0xEF);
         }
     }
@@ -662,7 +658,7 @@ void suspend_group_script_index(s32 id, s32 groupFlags) {
 
     for (i = 0; i < MAX_SCRIPTS; i++) {
         scriptContextPtr = (*gCurrentScriptListPtr)[i];
-        if (scriptContextPtr != NULL && scriptContextPtr->uniqueID == id) {
+        if (scriptContextPtr != NULL && scriptContextPtr->id == id) {
             suspend_group_script(scriptContextPtr, groupFlags);
         }
     }
@@ -674,7 +670,7 @@ void resume_group_script_index(s32 id, s32 groupFlags) {
 
     for (i = 0; i < MAX_SCRIPTS; i++) {
         scriptContextPtr = (*gCurrentScriptListPtr)[i];
-        if (scriptContextPtr != NULL && scriptContextPtr->uniqueID == id) {
+        if (scriptContextPtr != NULL && scriptContextPtr->id == id) {
             resume_group_script(scriptContextPtr, groupFlags);
         }
     }
@@ -739,7 +735,7 @@ ScriptInstance* get_script_by_id(s32 id) {
     for (i = 0; i < MAX_SCRIPTS; i++) {
         if ((*gCurrentScriptListPtr)[i] != NULL) {
             scriptContextPtr = (*gCurrentScriptListPtr)[i];
-            if (scriptContextPtr->uniqueID == id) {
+            if (scriptContextPtr->id == id) {
                 return scriptContextPtr;
             }
         }

@@ -2,8 +2,8 @@
 .set noreorder # don't insert nops after branches
 
 glabel func_802E54CC
-/* 106D4C 802E54CC 3C028011 */  lui       $v0, 0x8011
-/* 106D50 802E54D0 9042F2AC */  lbu       $v0, -0xd54($v0)
+/* 106D4C 802E54CC 3C028011 */  lui       $v0, %hi(gPlayerData+0x1C)
+/* 106D50 802E54D0 9042F2AC */  lbu       $v0, %lo(gPlayerData+0x1C)($v0)
 /* 106D54 802E54D4 27BDFFE8 */  addiu     $sp, $sp, -0x18
 /* 106D58 802E54D8 AFB00010 */  sw        $s0, 0x10($sp)
 /* 106D5C 802E54DC 0080802D */  daddu     $s0, $a0, $zero
@@ -15,8 +15,8 @@ glabel func_802E54CC
 /* 106D74 802E54F4 14400013 */  bnez      $v0, .L802E5544
 /* 106D78 802E54F8 3C04001D */   lui      $a0, 0x1d
 /* 106D7C 802E54FC 34840001 */  ori       $a0, $a0, 1
-/* 106D80 802E5500 3C05802F */  lui       $a1, 0x802f
-/* 106D84 802E5504 24A5B3C0 */  addiu     $a1, $a1, -0x4c40
+/* 106D80 802E5500 3C05802F */  lui       $a1, %hi(D_802EB3C0)
+/* 106D84 802E5504 24A5B3C0 */  addiu     $a1, $a1, %lo(D_802EB3C0)
 /* 106D88 802E5508 0C049640 */  jal       load_string
 /* 106D8C 802E550C ACA00000 */   sw       $zero, ($a1)
 /* 106D90 802E5510 0C009C22 */  jal       func_80027088

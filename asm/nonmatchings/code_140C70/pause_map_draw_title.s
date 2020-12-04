@@ -9,15 +9,15 @@ glabel pause_map_draw_title
 /* 14189C 8024E55C 00C0A02D */  daddu     $s4, $a2, $zero
 /* 1418A0 8024E560 AFB20020 */  sw        $s2, 0x20($sp)
 /* 1418A4 8024E564 00E0902D */  daddu     $s2, $a3, $zero
-/* 1418A8 8024E568 3C038027 */  lui       $v1, 0x8027
-/* 1418AC 8024E56C 806300D4 */  lb        $v1, 0xd4($v1)
+/* 1418A8 8024E568 3C038027 */  lui       $v1, %hi(gPauseMenuCurrentTab)
+/* 1418AC 8024E56C 806300D4 */  lb        $v1, %lo(gPauseMenuCurrentTab)($v1)
 /* 1418B0 8024E570 24020006 */  addiu     $v0, $zero, 6
 /* 1418B4 8024E574 AFBF002C */  sw        $ra, 0x2c($sp)
 /* 1418B8 8024E578 AFB1001C */  sw        $s1, 0x1c($sp)
 /* 1418BC 8024E57C 14620019 */  bne       $v1, $v0, .L8024E5E4
 /* 1418C0 8024E580 AFB00018 */   sw       $s0, 0x18($sp)
-/* 1418C4 8024E584 3C118027 */  lui       $s1, 0x8027
-/* 1418C8 8024E588 2631071C */  addiu     $s1, $s1, 0x71c
+/* 1418C4 8024E584 3C118027 */  lui       $s1, %hi(D_8027071C)
+/* 1418C8 8024E588 2631071C */  addiu     $s1, $s1, %lo(D_8027071C)
 /* 1418CC 8024E58C 8E230000 */  lw        $v1, ($s1)
 /* 1418D0 8024E590 2402FFFF */  addiu     $v0, $zero, -1
 /* 1418D4 8024E594 10620013 */  beq       $v1, $v0, .L8024E5E4

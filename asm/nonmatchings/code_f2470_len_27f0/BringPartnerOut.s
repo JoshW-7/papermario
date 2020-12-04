@@ -26,8 +26,8 @@ glabel BringPartnerOut
 /* F3FBC 802CF60C 3C038011 */  lui       $v1, %hi(gPlayerData)
 /* F3FC0 802CF610 2463F290 */  addiu     $v1, $v1, %lo(gPlayerData)
 /* F3FC4 802CF614 80630012 */  lb        $v1, 0x12($v1)
-/* F3FC8 802CF618 3C14802E */  lui       $s4, 0x802e
-/* F3FCC 802CF61C 2694AE40 */  addiu     $s4, $s4, -0x51c0
+/* F3FC8 802CF618 3C14802E */  lui       $s4, %hi(D_802DAE40)
+/* F3FCC 802CF61C 2694AE40 */  addiu     $s4, $s4, %lo(D_802DAE40)
 /* F3FD0 802CF620 14620004 */  bne       $v1, $v0, .L802CF634
 /* F3FD4 802CF624 AE820000 */   sw       $v0, ($s4)
 /* F3FD8 802CF628 AE800000 */  sw        $zero, ($s4)
@@ -45,17 +45,17 @@ glabel BringPartnerOut
 /* F4004 802CF654 000310C0 */  sll       $v0, $v1, 3
 /* F4008 802CF658 00431021 */  addu      $v0, $v0, $v1
 /* F400C 802CF65C 00021080 */  sll       $v0, $v0, 2
-/* F4010 802CF660 3C018010 */  lui       $at, 0x8010
+/* F4010 802CF660 3C018010 */  lui       $at, %hi(gPartnerAnimations+0x10)
 /* F4014 802CF664 00220821 */  addu      $at, $at, $v0
-/* F4018 802CF668 8C228358 */  lw        $v0, -0x7ca8($at)
+/* F4018 802CF668 8C228358 */  lw        $v0, %lo(gPartnerAnimations+0x10)($at)
 /* F401C 802CF66C 0220202D */  daddu     $a0, $s1, $zero
 /* F4020 802CF670 AFA00018 */  sw        $zero, 0x18($sp)
 /* F4024 802CF674 AFA0001C */  sw        $zero, 0x1c($sp)
 /* F4028 802CF678 0C00E211 */  jal       create_basic_npc
 /* F402C 802CF67C AFA20014 */   sw       $v0, 0x14($sp)
 /* F4030 802CF680 0040202D */  daddu     $a0, $v0, $zero
-/* F4034 802CF684 3C01802E */  lui       $at, 0x802e
-/* F4038 802CF688 AC24AE44 */  sw        $a0, -0x51bc($at)
+/* F4034 802CF684 3C01802E */  lui       $at, %hi(D_802DAE44)
+/* F4038 802CF688 AC24AE44 */  sw        $a0, %lo(D_802DAE44)($at)
 /* F403C 802CF68C 0C00E2B7 */  jal       get_npc_by_index
 /* F4040 802CF690 2413000A */   addiu    $s3, $zero, 0xa
 /* F4044 802CF694 0040882D */  daddu     $s1, $v0, $zero
@@ -111,8 +111,8 @@ glabel BringPartnerOut
 /* F410C 802CF75C E6200010 */   swc1     $f0, 0x10($s1)
 /* F4110 802CF760 C6220010 */  lwc1      $f2, 0x10($s1)
 /* F4114 802CF764 C6240018 */  lwc1      $f4, 0x18($s1)
-/* F4118 802CF768 3C108010 */  lui       $s0, 0x8010
-/* F411C 802CF76C 26108348 */  addiu     $s0, $s0, -0x7cb8
+/* F4118 802CF768 3C108010 */  lui       $s0, %hi(gPartnerAnimations)
+/* F411C 802CF76C 26108348 */  addiu     $s0, $s0, %lo(gPartnerAnimations)
 /* F4120 802CF770 E620000C */  swc1      $f0, 0xc($s1)
 /* F4124 802CF774 46041083 */  div.s     $f2, $f2, $f4
 /* F4128 802CF778 4600118D */  trunc.w.s $f6, $f2
@@ -159,8 +159,8 @@ glabel BringPartnerOut
 /* F41C8 802CF818 080B3E54 */  j         .L802CF950
 /* F41CC 802CF81C AE230028 */   sw       $v1, 0x28($s1)
 .L802CF820:
-/* F41D0 802CF820 3C04802E */  lui       $a0, 0x802e
-/* F41D4 802CF824 8C84AE44 */  lw        $a0, -0x51bc($a0)
+/* F41D0 802CF820 3C04802E */  lui       $a0, %hi(D_802DAE44)
+/* F41D4 802CF824 8C84AE44 */  lw        $a0, %lo(D_802DAE44)($a0)
 /* F41D8 802CF828 0C00E2B7 */  jal       get_npc_by_index
 /* F41DC 802CF82C 00000000 */   nop      
 /* F41E0 802CF830 0040882D */  daddu     $s1, $v0, $zero
@@ -175,14 +175,14 @@ glabel BringPartnerOut
 /* F4204 802CF854 E620001C */  swc1      $f0, 0x1c($s1)
 /* F4208 802CF858 4500000A */  bc1f      .L802CF884
 /* F420C 802CF85C E622003C */   swc1     $f2, 0x3c($s1)
-/* F4210 802CF860 3C02802E */  lui       $v0, 0x802e
-/* F4214 802CF864 8C42AE40 */  lw        $v0, -0x51c0($v0)
+/* F4210 802CF860 3C02802E */  lui       $v0, %hi(D_802DAE40)
+/* F4214 802CF864 8C42AE40 */  lw        $v0, %lo(D_802DAE40)($v0)
 /* F4218 802CF868 000218C0 */  sll       $v1, $v0, 3
 /* F421C 802CF86C 00621821 */  addu      $v1, $v1, $v0
 /* F4220 802CF870 00031880 */  sll       $v1, $v1, 2
-/* F4224 802CF874 3C028010 */  lui       $v0, 0x8010
+/* F4224 802CF874 3C028010 */  lui       $v0, %hi(gPartnerAnimations+0x8)
 /* F4228 802CF878 00431021 */  addu      $v0, $v0, $v1
-/* F422C 802CF87C 8C428350 */  lw        $v0, -0x7cb0($v0)
+/* F422C 802CF87C 8C428350 */  lw        $v0, %lo(gPartnerAnimations+0x8)($v0)
 /* F4230 802CF880 AE220028 */  sw        $v0, 0x28($s1)
 .L802CF884:
 /* F4234 802CF884 8E250018 */  lw        $a1, 0x18($s1)
@@ -214,8 +214,8 @@ glabel BringPartnerOut
 /* F4298 802CF8E8 080B3E54 */  j         .L802CF950
 /* F429C 802CF8EC 0000102D */   daddu    $v0, $zero, $zero
 .L802CF8F0:
-/* F42A0 802CF8F0 3C03802E */  lui       $v1, 0x802e
-/* F42A4 802CF8F4 8C63AE40 */  lw        $v1, -0x51c0($v1)
+/* F42A0 802CF8F0 3C03802E */  lui       $v1, %hi(D_802DAE40)
+/* F42A4 802CF8F4 8C63AE40 */  lw        $v1, %lo(D_802DAE40)($v1)
 /* F42A8 802CF8F8 C6240064 */  lwc1      $f4, 0x64($s1)
 /* F42AC 802CF8FC C622000C */  lwc1      $f2, 0xc($s1)
 /* F42B0 802CF900 3C014334 */  lui       $at, 0x4334
@@ -225,9 +225,9 @@ glabel BringPartnerOut
 /* F42C0 802CF910 000310C0 */  sll       $v0, $v1, 3
 /* F42C4 802CF914 00431021 */  addu      $v0, $v0, $v1
 /* F42C8 802CF918 00021080 */  sll       $v0, $v0, 2
-/* F42CC 802CF91C 3C018010 */  lui       $at, 0x8010
+/* F42CC 802CF91C 3C018010 */  lui       $at, %hi(gPartnerAnimations+0x14)
 /* F42D0 802CF920 00220821 */  addu      $at, $at, $v0
-/* F42D4 802CF924 8C22835C */  lw        $v0, -0x7ca4($at)
+/* F42D4 802CF924 8C22835C */  lw        $v0, %lo(gPartnerAnimations+0x14)($at)
 /* F42D8 802CF928 460C1300 */  add.s     $f12, $f2, $f12
 /* F42DC 802CF92C E634001C */  swc1      $f20, 0x1c($s1)
 /* F42E0 802CF930 E624003C */  swc1      $f4, 0x3c($s1)

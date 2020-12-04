@@ -86,9 +86,9 @@ ApiStatus AwaitPlayerApproach(ScriptInstance* script, s32 isInitialCall) {
     Bytecode* ptrReadPos = script->ptrReadPos;
     PlayerStatus* playerStatus = &gPlayerStatus;
 
-    s32* targetX = &script->functionTemp[0];
-    s32* targetZ = &script->functionTemp[1];
-    s32* distanceRequired = &script->functionTemp[2];
+    s32* targetX = &script->functionTemp[0].s;
+    s32* targetZ = &script->functionTemp[1].s;
+    s32* distanceRequired = &script->functionTemp[2].s;
 
     f32 distance;
 
@@ -114,12 +114,12 @@ ApiStatus IsPlayerWithin(ScriptInstance* script, s32 isInitialCall) {
     Bytecode* ptrReadPos = script->ptrReadPos;
     PlayerStatus* playerStatus = &gPlayerStatus;
 
-    s32* targetX = &script->functionTemp[0];
-    s32* targetZ = &script->functionTemp[1];
-    s32* distanceRequired = &script->functionTemp[2];
+    s32* targetX = &script->functionTemp[0].s;
+    s32* targetZ = &script->functionTemp[1].s;
+    s32* distanceRequired = &script->functionTemp[2].s;
 
     f32 distance;
-    Bytecode outVar = SI_VAR_0;
+    Bytecode outVar = SI_VAR(0);
 
     if (isInitialCall) {
         *targetX = get_variable(script, *ptrReadPos++);
@@ -145,9 +145,9 @@ ApiStatus AwaitPlayerLeave(ScriptInstance* script, s32 isInitialCall) {
     Bytecode* ptrReadPos = script->ptrReadPos;
     PlayerStatus* playerStatus = &gPlayerStatus;
 
-    s32* targetX = &script->functionTemp[0];
-    s32* targetZ = &script->functionTemp[1];
-    s32* distanceRequired = &script->functionTemp[2];
+    s32* targetX = &script->functionTemp[0].s;
+    s32* targetZ = &script->functionTemp[1].s;
+    s32* distanceRequired = &script->functionTemp[2].s;
 
     f32 distance;
 
@@ -189,8 +189,8 @@ ApiStatus AddVectorPolar(ScriptInstance* script, s32 isInitialCall) {
 }
 
 ApiStatus func_802D4BDC(ScriptInstance* script, s32 initialCall) {
-    s32* t0 = &script->functionTemp[0];
-    s32* t1 = &script->functionTemp[1];
+    s32* t0 = &script->functionTemp[0].s;
+    s32* t1 = &script->functionTemp[1].s;
     s32 t1v;
 
     if (initialCall) {
@@ -217,8 +217,8 @@ ApiStatus func_802D4BDC(ScriptInstance* script, s32 initialCall) {
 }
 
 ApiStatus func_802D4C4C(ScriptInstance* script, s32 initialCall) {
-    s32* t0 = &script->functionTemp[0];
-    s32* t1 = &script->functionTemp[1];
+    s32* t0 = &script->functionTemp[0].s;
+    s32* t1 = &script->functionTemp[1].s;
     s32 t1v;
 
     if (initialCall) {
@@ -351,7 +351,27 @@ INCLUDE_ASM(s32, "code_f8f60_len_1560", setup_path_data);
 
 INCLUDE_ASM(s32, "code_f8f60_len_1560", func_802D5270);
 
-INCLUDE_ASM(s32, "code_f8f60_len_1560", LoadPath, ScriptInstance* script, s32 isInitialCall);
+s32 LoadPath(ScriptInstance* script, s32 isInitialCall) {
+    Bytecode* args = script->ptrReadPos;
+    s32 time = get_variable(script, *args++);
+    s32 vectorList = get_variable(script, *args++);
+    s32 numVectors = get_variable(script, *args++);
+    s32 easingType = get_variable(script, *args++);
+    Path* path = heap_malloc(sizeof(Path));
+
+    script->varTable[15] = path;
+    path->numVectors = numVectors;
+    path->unk_04 = heap_malloc(numVectors * sizeof(f32));
+    path->staticVectorList = vectorList;
+    path->vectors = heap_malloc(numVectors * sizeof(Vec3f));
+    setup_path_data(path->numVectors, path->unk_04, path->staticVectorList, path->vectors);
+
+    path->timeElapsed = 0;
+    path->timeLeft = time - 1;
+    path->easingType = easingType;
+
+    return ApiStatus_DONE2;
+}
 
 INCLUDE_ASM(s32, "code_f8f60_len_1560", GetNextPathPos, ScriptInstance* script, s32 isInitialCall);
 

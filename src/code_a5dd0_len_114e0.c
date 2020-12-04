@@ -34,24 +34,24 @@ Shadow* get_shadow_by_index(s32 index) {
     return (*gCurrentShadowListPtr)[index & 0xFFF];
 }
 
-Entity** get_entity_list(void) {
-    Entity** ret;
+EntityList* get_entity_list(void) {
+    EntityList* ret;
 
     if (!GAME_STATUS->isBattle) {
-        ret = gWorldEntityList;
+        ret = &gWorldEntityList;
     } else {
-        ret = gBattleEntityList;
+        ret = &gBattleEntityList;
     }
     return ret;
 }
 
-Shadow** get_shadow_list(void) {
-    Shadow** ret;
+ShadowList* get_shadow_list(void) {
+    ShadowList* ret;
 
     if (!GAME_STATUS->isBattle) {
-        ret = gWorldShadowList;
+        ret = &gWorldShadowList;
     } else {
-        ret = gBattleShadowList;
+        ret = &gBattleShadowList;
     }
     return ret;
 }
@@ -387,9 +387,17 @@ INCLUDE_ASM(s32, "code_a5dd0_len_114e0", func_8011FF98);
 
 INCLUDE_ASM(s32, "code_a5dd0_len_114e0", func_8011FFB4);
 
-INCLUDE_ASM(s32, "code_a5dd0_len_114e0", func_8011FFE0);
+AnimatedMesh* get_anim_mesh(s32 animModelID) {
+    return (*gCurrentAnimMeshListPtr)[animModelID & ~0x800];
+}
 
-INCLUDE_ASM(s32, "code_a5dd0_len_114e0", func_80120000);
+AnimatedMesh* func_80120000(s32 animModelID, s32 arg1, s32 arg2) {
+    AnimatedMesh* ret = (*gCurrentAnimMeshListPtr)[animModelID & ~0x800];
+
+    ret->unk_2D4 = arg2;
+    ret->unk_2D8 = arg1;
+    return ret;
+}
 
 INCLUDE_ASM(s32, "code_a5dd0_len_114e0", func_80120028);
 

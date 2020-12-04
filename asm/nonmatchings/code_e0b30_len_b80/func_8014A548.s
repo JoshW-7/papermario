@@ -4,8 +4,8 @@
 glabel func_8014A548
 /* E0C48 8014A548 27BDFFC8 */  addiu     $sp, $sp, -0x38
 /* E0C4C 8014A54C AFB1001C */  sw        $s1, 0x1c($sp)
-/* E0C50 8014A550 3C118016 */  lui       $s1, 0x8016
-/* E0C54 8014A554 26319AF0 */  addiu     $s1, $s1, -0x6510
+/* E0C50 8014A550 3C118016 */  lui       $s1, %hi(gMusicPlayers)
+/* E0C54 8014A554 26319AF0 */  addiu     $s1, $s1, %lo(gMusicPlayers)
 /* E0C58 8014A558 AFB20020 */  sw        $s2, 0x20($sp)
 /* E0C5C 8014A55C 0000902D */  daddu     $s2, $zero, $zero
 /* E0C60 8014A560 AFB30024 */  sw        $s3, 0x24($sp)
@@ -23,9 +23,9 @@ glabel func_8014A548
 /* E0C8C 8014A58C 50400085 */  beql      $v0, $zero, .L8014A7A4
 /* E0C90 8014A590 26520001 */   addiu    $s2, $s2, 1
 /* E0C94 8014A594 00031080 */  sll       $v0, $v1, 2
-/* E0C98 8014A598 3C018015 */  lui       $at, 0x8015
+/* E0C98 8014A598 3C018015 */  lui       $at, %hi(D_80151290)
 /* E0C9C 8014A59C 00220821 */  addu      $at, $at, $v0
-/* E0CA0 8014A5A0 8C221290 */  lw        $v0, 0x1290($at)
+/* E0CA0 8014A5A0 8C221290 */  lw        $v0, %lo(D_80151290)($at)
 /* E0CA4 8014A5A4 00400008 */  jr        $v0
 /* E0CA8 8014A5A8 00000000 */   nop      
 /* E0CAC 8014A5AC 96230000 */  lhu       $v1, ($s1)
@@ -126,9 +126,9 @@ glabel func_8014A548
 /* E0E08 8014A708 080529C8 */  j         .L8014A720
 /* E0E0C 8014A70C A6220000 */   sh       $v0, ($s1)
 .L8014A710:
-/* E0E10 8014A710 3C048016 */  lui       $a0, 0x8016
-/* E0E14 8014A714 84849AE0 */  lh        $a0, -0x6520($a0)
-/* E0E18 8014A718 0C052B21 */  jal       func_8014AC84
+/* E0E10 8014A710 3C048016 */  lui       $a0, %hi(gMusicUnkVolume)
+/* E0E14 8014A714 84849AE0 */  lh        $a0, %lo(gMusicUnkVolume)($a0)
+/* E0E18 8014A718 0C052B21 */  jal       transition_music_volume_to
 /* E0E1C 8014A71C 00000000 */   nop      
 .L8014A720:
 /* E0E20 8014A720 8E040016 */  lw        $a0, 0x16($s0)
